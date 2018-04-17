@@ -26,8 +26,7 @@ import com.yc.view.utils.ChartUtils;
 
 /**
  * 
- * @author ccw
- * @date 2014-6-11
+ * @author yc
  *       <p>
  *       创建图表步骤：<br/>
  *       1：创建数据集合<br/>
@@ -36,7 +35,6 @@ import com.yc.view.utils.ChartUtils;
  *       4:对柱子进行渲染，<br/>
  *       5:对其他部分进行渲染<br/>
  *       6:使用chartPanel接收<br/>
- * 
  *       </p>
  */
 public class TimeSeriesChart {
@@ -136,7 +134,7 @@ public class TimeSeriesChart {
 	
     public static void outPng() throws IOException{
     	//图片是文件格式的,故要用到FileOutputStream用来输出.
-    	 OutputStream os = new FileOutputStream(".003.jpeg");
+    	 OutputStream os = new FileOutputStream("003.jpeg");
     	//使用一个面向application的工具类,将chart转换成JPEG格式的图片.第3个参数是宽度,第4个参数是高度.
          ChartUtilities.writeChartAsJPEG(os, new TimeSeriesChart().getJFreeChart(), 1024, 420);
          os.close();//关闭输出流

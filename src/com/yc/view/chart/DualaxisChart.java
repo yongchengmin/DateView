@@ -1,15 +1,10 @@
 package com.yc.view.chart;
 
 import java.awt.Color;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Vector;
-
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -32,8 +27,7 @@ import com.yc.view.utils.Serie;
 
 /**
  * 
- * @author ccw
- * @date 2014-6-11
+ * @author yc
  *       <p>
  *       2个Y轴图形<br/>
  *       创建图表步骤：<br/>
@@ -43,7 +37,6 @@ import com.yc.view.utils.Serie;
  *       4:对柱子进行渲染，<br/>
  *       5:对其他部分进行渲染<br/>
  *       6:使用chartPanel接收<br/>
- * 
  *       </p>
  */
 

@@ -6,9 +6,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Vector;
 
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartUtilities;
@@ -16,14 +13,15 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.block.BlockBorder;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import com.yc.utils.files.PropertiesUtil;
+import com.yc.view.utils.ChartGlobal;
 import com.yc.view.utils.ChartUtils;
 import com.yc.view.utils.Serie;
 
 
 /**
  * 
- * @author ccw
- * @date 2014-6-11
+ * @author yc
  *       <p>
  *       创建图表步骤：<br/>
  *       1：创建数据集合<br/>
@@ -32,7 +30,6 @@ import com.yc.view.utils.Serie;
  *       4:对柱子进行渲染，<br/>
  *       5:对其他部分进行渲染<br/>
  *       6:使用chartPanel接收<br/>
- * 
  *       </p>
  */
 public class BarChart {
@@ -87,11 +84,14 @@ public class BarChart {
 //			}
 //		});
 		
-		try {
-			outPng();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			outPng();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		
+		String sizetwo = PropertiesUtil.getPropertiesKey(ChartGlobal.PORTMESG, ChartGlobal.SIZE_TWO);
+		ChartUtils.saveAsFile(new BarChart().getJFreeChart(), sizetwo+"/01.png", 1024, 420);
 
 	}
 	static JFreeChart chart;

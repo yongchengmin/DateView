@@ -36,7 +36,7 @@ import com.yc.view.utils.ChartUtils;
 public class PieChart {
 
 	public static DefaultPieDataset createDataset() {
-		String[] categories = { "Bananas", "Kiwi", "Mixed nuts", "Oranges", "Apples", "Pears", "Clementines", "Reddish (bag)", "Grapes (bunch)", };
+		String[] categories = { "Bananas", "Kiwi", "Mixed nuts", "Oranges", "Apples", "Pears", "Clementines", "Reddish (bag)", "Grapes (bunch)" };
 		Object[] datas = { 8, 3, 1, 6, 8, 4, 4, 1, 1 };
 		DefaultPieDataset dataset = ChartUtils.createDefaultPieDataset(categories, datas);
 		return dataset;
