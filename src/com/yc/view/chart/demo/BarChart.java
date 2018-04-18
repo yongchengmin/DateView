@@ -1,4 +1,4 @@
-package com.yc.view.chart;
+package com.yc.view.chart.demo;
 
 import java.awt.Color;
 import java.io.FileOutputStream;
@@ -18,6 +18,7 @@ import com.yc.view.utils.ChartGlobal;
 import com.yc.view.utils.ChartUtils;
 import com.yc.view.utils.Serie;
 
+
 /**
  * 
  * @author yc
@@ -31,7 +32,7 @@ import com.yc.view.utils.Serie;
  *       6:使用chartPanel接收<br/>
  *       </p>
  */
-public class LineChart {
+public class BarChart {
 
 	public static DefaultCategoryDataset createDataset() {
 		// 标注类别
@@ -48,12 +49,12 @@ public class LineChart {
 	}
 
 	public static JFreeChart createChart() {
-		// 2：创建Chart[创建不同图形]
-		JFreeChart chart = ChartFactory.createLineChart("Monthly Average Rainfall", "", "Rainfall (mm)", createDataset());
+		// 2：创建Chart
+		JFreeChart chart = ChartFactory.createBarChart("Monthly Average Rainfall", "", "Rainfall (mm)", createDataset());
 		// 3:设置抗锯齿，防止字体显示不清楚
 		ChartUtils.setAntiAlias(chart);// 抗锯齿
-		// 4:对柱子进行渲染[[采用不同渲染]]
-		ChartUtils.setLineRender(chart.getCategoryPlot(), false,true);//
+		// 4:对柱子进行渲染
+		ChartUtils.setBarRenderer(chart.getCategoryPlot(), false);//
 		// 5:对其他部分进行渲染
 		ChartUtils.setXAixs(chart.getCategoryPlot());// X坐标轴渲染
 		ChartUtils.setYAixs(chart.getCategoryPlot());// Y坐标轴渲染
@@ -61,53 +62,54 @@ public class LineChart {
 		chart.getLegend().setFrame(new BlockBorder(Color.WHITE));
 		return chart;
 	}
-
+	
 	public ChartPanel getChartPanel(){
 		// 6:使用chartPanel接收
 		ChartPanel chartPanel = new ChartPanel(createChart());
 		return chartPanel;
 	}
-	
+
 	public static void main(String[] args) {
-		/*final JFrame frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(1024, 420);
-		frame.setLocationRelativeTo(null);
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				// 创建图形
-				ChartPanel chartPanel = new LineChart().getChartPanel();
-				frame.getContentPane().add(chartPanel);
-				frame.setVisible(true);
-			}
-		});*/
+//		final JFrame frame = new JFrame();
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.setSize(1024, 420);
+//		frame.setLocationRelativeTo(null);
+//		SwingUtilities.invokeLater(new Runnable() {
+//			@Override
+//			public void run() {
+//				// 创建图形
+//				ChartPanel chartPanel = new BarChart().getChartPanel();
+//				frame.getContentPane().add(chartPanel);
+//				frame.setVisible(true);
+//			}
+//		});
 		
-		/*try {
-			outPng();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
+//		try {
+//			outPng();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		
 		String sizetwo = PropertiesUtil.getPropertiesKey(ChartGlobal.PORTMESG, ChartGlobal.SIZE_TWO);
-		ChartUtils.saveAsFile(new LineChart().getJFreeChart(), sizetwo+"/03.png", 1024, 420);
-	}
+		ChartUtils.saveAsFile(new BarChart().getJFreeChart(), sizetwo+"/01.png", 1024, 420);
 
+	}
 	static JFreeChart chart;
 	public JFreeChart getJFreeChart(){
     	return chart;
     }
 	ChartPanel frame1;
-    public LineChart(){
+    public BarChart(){
     	chart = createChart();
     	frame1=new ChartPanel(chart,true);
     }
 	
     public static void outPng() throws IOException{
     	//图片是文件格式的,故要用到FileOutputStream用来输出.
-    	 OutputStream os = new FileOutputStream("LineChart.jpeg");
+    	 OutputStream os = new FileOutputStream("01.jpeg");
     	//使用一个面向application的工具类,将chart转换成JPEG格式的图片.第3个参数是宽度,第4个参数是高度.
-         ChartUtilities.writeChartAsJPEG(os, new LineChart().getJFreeChart(), 1024, 420);
+         ChartUtilities.writeChartAsJPEG(os, new BarChart().getJFreeChart(), 1024, 420);
          os.close();//关闭输出流
     }
+
 }

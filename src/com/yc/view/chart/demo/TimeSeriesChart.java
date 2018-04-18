@@ -1,4 +1,4 @@
-package com.yc.view.chart;
+package com.yc.view.chart.demo;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -52,9 +52,9 @@ public class TimeSeriesChart {
 		for (int row = 0; row < categories.length; row++) {
 			Vector<Object[]> dateValues = new Vector<Object[]>();
 			for (int i = 0; i < 20; i++) {
-				String date = (2000 + i) + "-0" + i + "-21";
+				String date = (2000 + i) + "-0" + i + "-21";//注意:每年只有一个值
 				System.out.println(date);
-				Object[] dateValue = { date, random.nextInt(10) };
+				Object[] dateValue = { date, random.nextInt(10) };//封装年月日的值,[yyyy-MM-dd,随机0-10之间的数字]
 				dateValues.add(dateValue);
 
 			}

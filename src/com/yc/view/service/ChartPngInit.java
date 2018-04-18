@@ -5,8 +5,8 @@ import java.util.Date;
 import org.jfree.chart.JFreeChart;
 
 import com.yc.utils.files.PropertiesUtil;
-import com.yc.view.chart.BarChart;
-import com.yc.view.chart.DualaxisChart;
+import com.yc.view.chart.demo.BarChart;
+import com.yc.view.chart.demo.DualaxisChart;
 import com.yc.view.utils.ChartGlobal;
 import com.yc.view.utils.ChartUtils;
 import com.yc.view.utils.DateUtil;

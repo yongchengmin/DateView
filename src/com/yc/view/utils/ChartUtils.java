@@ -212,12 +212,14 @@ public class ChartUtils {
 				try {
 					date = dateFormat.parse(objects[0].toString());
 				} catch (ParseException e) {
+					System.out.println(e.getMessage());
 				}
 				String sValue = objects[1].toString();
 				double dValue = 0;
 				if (date != null && isNumber(sValue)) {
 					dValue = Double.parseDouble(sValue);
 					timeseries.add(new Day(date), dValue);
+					System.out.println(date+","+dValue+","+objects[0]);
 				}
 			}
 		}

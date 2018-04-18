@@ -1,4 +1,4 @@
-package com.yc.view.chart;
+package com.yc.view.chart.demo;
 
 import java.awt.Color;
 import java.io.FileOutputStream;

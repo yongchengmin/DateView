@@ -1,5 +1,7 @@
 package com.yc.view.utils;
 
+import java.util.Random;
+
 public class ProjectUtils {
 //	static String parentPath = null;
 //	static{
@@ -31,6 +33,7 @@ public class ProjectUtils {
 	   }
 	
 	public static void main(String[] args) {
-		getCurrentPath();
+		Random random = new Random();
+		System.out.println(random.nextInt(10));
 	}
 }

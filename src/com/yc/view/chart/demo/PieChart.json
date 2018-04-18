@@ -1,0 +1,25 @@
+{
+	"name":"PieChart",
+	"categories":[
+		"Bananas",
+		"Kiwi",
+		"Mixed nuts",
+		"Oranges",
+		"Apples",
+		"Pears",
+		"Clementines",
+		"Reddish (bag)",
+		"Grapes (bunch)"
+	],
+	"datas":{
+		"Bananas":8,
+		"Kiwi":3,
+		"Mixed nuts":1,
+		"Oranges":6,
+		"Apples":8,
+		"Pears":4,
+		"Clementines":4,
+		"Reddish (bag)":1,
+		"Grapes (bunch)":1
+	}
+}
