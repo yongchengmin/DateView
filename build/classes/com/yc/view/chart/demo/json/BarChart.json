@@ -1,5 +1,7 @@
 {
-	"name": "BarChart",
+	"title": "Monthly Average Rainfall",
+	"categoryAxisLabel":"",
+	"valueAxisLabel":"Rainfall (mm)",
 	"categories":[ 
 		"Tokyo","New York","London","Berlin"
 	],

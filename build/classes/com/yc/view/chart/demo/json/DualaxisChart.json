@@ -1,5 +1,8 @@
 {
-	"name": "DualaxisChart",
+	"title": "",
+	"categoryAxisLabel":"",
+	"valueAxisLabel":"净利润(万元)",
+	"numberaxis":"股利支付率(%)"
 	"categories":[
 		"净利润","股利支付率"
 	],

@@ -13,5 +13,13 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="var" path="MAVEN_REPO/json/jars/ezmorph-1.0.6.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/json/jars/json-lib-2.4-jdk15.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/json/jars/jsonplugin-0.34.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/json/jars/jsontools-core-1.7.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/jac_esb/jars/commons-lang-2.6.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/jac_esb/jars/commons-logging-1.2.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/commons-collections/jars/commons-collections-3.1.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/commons-beanutils/jars/commons-beanutils-1.7.0.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
