@@ -1,0 +1,21 @@
+{
+	"title": "",
+	"categoryAxisLabel":"",
+	"valueAxisLabel":"任务数(个)",
+	"numberaxis":"异常率(个)",
+	"categories":{
+		"pillar":"任务数",
+		"line":"异常率"
+	},
+	"x": [
+		"04-20 10:10"
+	],
+	"y": {
+		"任务数": [
+			100
+		],
+		"异常率": [
+			10
+		]
+	}
+}

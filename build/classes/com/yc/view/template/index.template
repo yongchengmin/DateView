@@ -8,7 +8,7 @@
 <META HTTP-EQUIV="pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
 <META HTTP-EQUIV="expires" CONTENT="0">
-<title>鏂版腐鏁版嵁鐩戞帶C-4</title>
+<title>新港数据监控C-4</title>
 <link rel="stylesheet" type="text/css" href="css/normalize.css" />
 <link rel="stylesheet" type="text/css" href="css/default.css">
 <link rel="stylesheet" type="text/css" href="css/styles.css">
@@ -22,10 +22,10 @@
 <div class="content">
 <h2>Left top block inner text heading</h2>
 <div class="htmleaf-links">
-<a class="htmleaf-icon icon-htmleaf-home-outline" href="http://220.178.49.203:8978/jac_parts_wms/mainFrame.html" title="鏂版腐WMS" target="_blank"><span> 鏂版腐WMS</span></a>
-<a class="htmleaf-icon icon-htmleaf-arrow-forward-outline" href="http://220.178.49.203:8978/jac_parts_wms/mainFrame.html" title="棰勭暀" target="_blank"><span> 杩斿洖棰勭暀</span></a>
+<a class="htmleaf-icon icon-htmleaf-home-outline" href="http://220.178.49.203:8978/jac_parts_wms/mainFrame.html" title="新港WMS" target="_blank"><span> 新港WMS</span></a>
+<a class="htmleaf-icon icon-htmleaf-arrow-forward-outline" href="http://220.178.49.203:8978/jac_parts_wms/mainFrame.html" title="预留" target="_blank"><span> 返回预留</span></a>
 </div>
-<p><img src="01_953.png" width="700" height="300"></p> 
+<p><img src="{block left top png}" width="700" height="300"></p> 
 </div>
 </div>
 <input id="right-top" type="checkbox" name="right-top"/>

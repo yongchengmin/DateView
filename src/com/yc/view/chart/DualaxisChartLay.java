@@ -8,6 +8,9 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.util.Vector;
 
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
 import net.sf.json.JSONObject;
 
 import org.jfree.chart.ChartFactory;
@@ -132,7 +135,7 @@ public class DualaxisChartLay {
 		return chart;
 	}
 	
-	public ChartPanel getChartPanel(String pathname){
+	public static ChartPanel getChartPanel(String pathname){
 		// 6:使用chartPanel接收
 		ChartPanel chartPanel = new ChartPanel(createChart(pathname));
 		return chartPanel;
@@ -140,26 +143,27 @@ public class DualaxisChartLay {
 
 	public static void main(String[] args) {
 		URL url = DualaxisChart.class.getResource("DualaxisChart.json");//test,从json路径下拷贝一份至demo路径下测试
-		String pathname = url.getPath();
-//		final JFrame frame = new JFrame();
-//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		frame.setSize(1024, 420);
-//		frame.setLocationRelativeTo(null);
-//		SwingUtilities.invokeLater(new Runnable() {
-//			@Override
-//			public void run() {
-//				// 创建图形
-//				ChartPanel chartPanel = new DualaxisChart().getChartPanel();
-//				frame.getContentPane().add(chartPanel);
-//				frame.setVisible(true);
-//			}
-//		});
+		final String pathname = url.getPath();
+		
+		final JFrame frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(1024, 420);
+		frame.setLocationRelativeTo(null);
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				// 创建图形
+				ChartPanel chartPanel = getChartPanel(pathname);
+				frame.getContentPane().add(chartPanel);
+				frame.setVisible(true);
+			}
+		});
 
-		try {
-			outPng(pathname);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			outPng(pathname);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		
 //		String sizetwo = PropertiesUtil.getPropertiesKey(ChartGlobal.PORTMESG, ChartGlobal.SIZE_TWO);
 //		ChartUtils.saveAsFile(new DualaxisChartLay().getJFreeChart(), sizetwo+"/02.png", 1024, 420);

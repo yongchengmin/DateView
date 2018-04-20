@@ -1,5 +1,6 @@
 package com.yc.view.utils;
 
+import java.io.File;
 import java.util.Random;
 
 public class ProjectUtils {
@@ -8,6 +9,28 @@ public class ProjectUtils {
 //		parentPath = ProjectUtils.class.getResource("../").getFile().toString();
 //		System.out.println("parentPath load:"+parentPath);
 //	}
+	public static final String numbers = "0123456789";
+	public static String getRandomUtils(int length){
+		 StringBuffer sb = new StringBuffer(); 
+	     Random random = new Random(); 
+	     for (int i = 0; i < length; i++){
+	    	 sb.append(numbers.charAt(random.nextInt(numbers.length())));
+	     }
+	     return sb.toString();
+
+	}
+	//删除指定路径下指定类型的文件
+	public static void deleteFile(String pathname,String fileType){
+		File fileOne = new File(pathname);
+		File files[] = fileOne.listFiles();     
+		for(int i=0;i<files.length;i++){
+			if(files[i].isFile()){
+				if(files[i].getName().endsWith(fileType)){
+					files[i].delete();  
+				}
+			}
+        }
+	}
 
 	public static String getCurrentPath(){  
 	       //取得根目录路径  
@@ -33,7 +56,9 @@ public class ProjectUtils {
 	   }
 	
 	public static void main(String[] args) {
-		Random random = new Random();
-		System.out.println(random.nextInt(10));
+		deleteFile("D:\\json", ".png");
+//		System.out.println(getRandomUtils(3));
+//		Random random = new Random();
+//		System.out.println(random.nextInt(10));
 	}
 }
