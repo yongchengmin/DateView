@@ -32,76 +32,8 @@ import com.yc.view.utils.ChartUtils;
 import com.yc.view.utils.Serie;
 
 public class DualaxisChartLay {
-	//柱状数据源
-	public static DefaultCategoryDataset datasetNetProfit(JSONObject jsonObject) {
-		String categorie = jsonObject.getString(ChartJsonUtils.CATEGORIES);
-		if(categorie!=null && categorie.length()>0){
-			categorie = categorie.substring(1, categorie.length()-1);
-			String[] categories = categorie.split(ChartJsonUtils.COMMA);
-			
-			String y = jsonObject.getString(ChartJsonUtils.Y);
-			JSONObject jsonY = JSONObject.fromObject(y);
-			
-			Vector<Serie> series = new Vector<Serie>();
-			for(String c : categories){
-				c = c.replace("\"","").replace("\"","");
-				String yc = jsonY.getString(c.replace("\"","").replace("\"",""));
-				if(yc!=null && yc.length()>0){
-					yc = yc.substring(1, yc.length()-1);
-					String[] yt = yc.split(ChartJsonUtils.COMMA);
-					Double[] doe = new Double[yt.length];
-					int i = 0;
-					for(String value : yt){
-						if (ChartUtils.isNumber(value)) {
-							doe[i] = Double.parseDouble(value);
-							i++;
-						}
-					}
-					series.add(new Serie(c, doe));
-				}else {
-					return null;
-				}
-			}
-			String xc = jsonObject.getString(ChartJsonUtils.X);
-			if(xc!=null && xc.length()>0){
-				xc = xc.substring(1, xc.length()-1);
-			}else{
-				return null;
-			}
-			String[] xx = xc.split(ChartJsonUtils.COMMA);
-			String[] x = new String[xx.length];
-			int i = 0;
-			for(String value : xx){
-				x[i] = value.replace("\"","").replace("\"","");
-				i++;
-			}
-			DefaultCategoryDataset dataset = ChartUtils.createDefaultCategoryDataset(series, x);
-			return dataset;
-		}else{
-			return null;
-		}
-	}
-	//折线数据源
-	public static DefaultCategoryDataset datasetPayoutRatio(JSONObject jsonObject){
-		// 股利支付率
-		Object[] payoutRatio = { "39.01", "--", "45.39", "30.46", "27.50", "24.34", "19.90", "19.48", "12.67", "10.40", "10.02", "11.97", "20.51", "30.01",
-				" --" };
-		Vector<Serie> seriesPayoutRatio = new Vector<Serie>();
-		seriesPayoutRatio.add(new Serie("股利支付率", payoutRatio));
-		
-		String[] x = getX();
-		DefaultCategoryDataset datasetPayoutRatio = ChartUtils.createDefaultCategoryDataset(seriesPayoutRatio, x);
-		return datasetPayoutRatio;
-	}
-	private static String[] getX(){
-		String[] categories = { "1999-12-31", "2000-12-31", "2001-12-31", "2002-12-31", "2003-12-31", "2004-12-31", "2005-12-31", "2006-12-31", "2007-12-31",
-				"2008-12-31", "2009-12-31", "2010-12-31", "2011-12-31", "2012-12-31", "2013-12-31" };
-		for (int i = 0; i < categories.length; i++) {
-			categories[i]=categories[i].substring(0, 4);
-		}
-		return categories;
-	}
 	public static JFreeChart createChart(String pathname) {
+		/*******获取json数据部分***********************/
 		File file = new File(pathname);
 		if(!file.exists()){
 			return null;
@@ -112,8 +44,63 @@ public class DualaxisChartLay {
 		String categoryAxisLabel = jsonObject.getString(ChartJsonUtils.CATEGORYAXISLABEL);
 		String valueAxisLabel = jsonObject.getString(ChartJsonUtils.VALUEAXISLABEL);
 		String numberaxis = jsonObject.getString(ChartJsonUtils.NUMBERAXIS);
+		String y = jsonObject.getString(ChartJsonUtils.Y);
+		JSONObject jsonY = JSONObject.fromObject(y);
+		String categorie = jsonObject.getString(ChartJsonUtils.CATEGORIES);
+		JSONObject jsonCategorie = JSONObject.fromObject(categorie);
+		/*******柱状数据源***********************/
+		String pillar = jsonCategorie.getString(ChartJsonUtils.PILLAR);//柱状key
+		pillar = pillar.replace("\"","").replace("\"","");
+		Vector<Serie> seriesNetProfit = new Vector<Serie>();
 		
-		DefaultCategoryDataset datasetNetProfit = datasetNetProfit(jsonObject);
+		String yc = jsonY.getString(pillar);
+		yc = yc.substring(1, yc.length()-1);
+		String[] yt = yc.split(ChartJsonUtils.COMMA);
+		Double[] doe = new Double[yt.length];
+		int i = 0;
+		for(String value : yt){
+			if (ChartUtils.isNumber(value)) {
+				doe[i] = Double.parseDouble(value);
+			}else{
+				doe[i] = 0D;
+			}
+			i++;
+		}
+		seriesNetProfit.add(new Serie(pillar, doe));
+		/////公共X轴部分
+		String xc = jsonObject.getString(ChartJsonUtils.X);
+		xc = xc.substring(1, xc.length()-1);
+		String[] xx = xc.split(ChartJsonUtils.COMMA);
+		String[] x = new String[xx.length];
+		i = 0;
+		for(String value : xx){
+			x[i] = value.replace("\"","").replace("\"","");
+			i++;
+		}
+		
+		DefaultCategoryDataset datasetNetProfit = ChartUtils.createDefaultCategoryDataset(seriesNetProfit, x);
+		
+		/*******折线数据源***********************/
+		String line = jsonCategorie.getString(ChartJsonUtils.LINE);//折线key
+		line = line.replace("\"","").replace("\"","");
+		Vector<Serie> seriesPayoutRatio = new Vector<Serie>();
+		
+		yc = jsonY.getString(line);
+		yc = yc.substring(1, yc.length()-1);
+		yt = yc.split(ChartJsonUtils.COMMA);
+		doe = new Double[yt.length];
+		i = 0;
+		for(String value : yt){
+			if (ChartUtils.isNumber(value)) {
+				doe[i] = Double.parseDouble(value);
+			}else{
+//				doe[i] = 0D;
+			}
+			i++;
+		}
+		seriesPayoutRatio.add(new Serie(line, doe));
+		DefaultCategoryDataset datasetPayoutRatio = ChartUtils.createDefaultCategoryDataset(seriesPayoutRatio, x);
+		/*******数据展示部分***********************/
 		JFreeChart chart = ChartFactory.createBarChart(title, categoryAxisLabel, valueAxisLabel, datasetNetProfit);
 		ChartUtils.setAntiAlias(chart);// 抗锯齿
 		ChartUtils.setBarRenderer(chart.getCategoryPlot(), false);
@@ -122,7 +109,6 @@ public class DualaxisChartLay {
 		ChartUtils.setYAixs(chart.getCategoryPlot());
 		// linechart
 		CategoryPlot categoryplot = (CategoryPlot) chart.getPlot();
-		DefaultCategoryDataset datasetPayoutRatio = datasetPayoutRatio(jsonObject);
 		categoryplot.setDataset(1, datasetPayoutRatio);
 		categoryplot.mapDatasetToRangeAxis(1, 1);
 		// X轴刻度
@@ -139,7 +125,7 @@ public class DualaxisChartLay {
 		lineRenderer.setSeriesPaint(0, new Color(255, 185, 1));
 		lineRenderer.setBaseShapesVisible(true);// 数据点绘制形状
 		categoryplot.setRenderer(1, lineRenderer);
-		categoryplot.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);// 绘制Z-index, 将折线图在前面
+		categoryplot.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);// 绘制Z-index,将折线图在前面
 		
 		chart.getLegend().setPosition(RectangleEdge.TOP);//标注在顶部
 		chart.getLegend().setFrame(new BlockBorder(Color.WHITE));

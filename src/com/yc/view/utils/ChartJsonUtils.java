@@ -16,6 +16,9 @@ public class ChartJsonUtils {
 	public static String NUMBERAXIS = "numberaxis";
 	
 	public static String CATEGORIES = "categories";
+	public static String PILLAR = "pillar";//柱状
+	public static String LINE = "line";//折线
+	
 	public static String Y = "y";
 	public static String X = "x";
 	public static String DATE = "date";
