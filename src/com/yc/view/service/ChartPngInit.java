@@ -19,7 +19,7 @@ public class ChartPngInit {
 	public static String parentPath = "C://Users//"+ChartGlobal.PORTMESG;//发布路径
 //	static String parentPath = "D://jac_gitee_v002//DateView//"+ChartGlobal.PORTMESG;//开发路径,慎用(担心发布前忘记还原)
 	
-	static String sizeone = null;
+	public static String sizeone = null;
 	public static String sizetwo = null;
 	static{
 		sizeone = PropertiesUtil.getPropertiesKey(parentPath, ChartGlobal.SIZE_ONE);
@@ -54,17 +54,23 @@ public class ChartPngInit {
 		}
 		while(true){
 			System.out.println("C-4-LFET TOP >"+DateUtil.format(new Date(), DateUtil.dmy_hms));
-			ProjectUtils.deleteFile(sizeone, ChartGlobal.imageEnd);
-			ProjectUtils.deleteFile(sizetwo, ChartGlobal.imageEnd);
+//			ProjectUtils.deleteFile(sizeone, ChartGlobal.imageEnd);
+//			ProjectUtils.deleteFile(sizetwo, ChartGlobal.imageEnd);
 			
 			String pngRandom = ProjectUtils.getRandomUtils(3),
-				   png_01 = "001_"+pngRandom+ChartGlobal.imageEnd,
-				   png_02 = "01_"+pngRandom+ChartGlobal.imageEnd;
+//				   png_01 = "001"+pngRandom+ChartGlobal.imageEnd,
+//				   png_02 = "01"+pngRandom+ChartGlobal.imageEnd;
+					png_01 = "001"+ChartGlobal.imageEnd,
+					   png_02 = "01"+ChartGlobal.imageEnd;
 				
 			JFreeChart chart = new BarChartLay(sizetwo+"/01.json").getJFreeChart();//将来动态获取
 			ChartUtils.saveAsFile(chart, sizeone+"/"+png_01, 700, 320);
 			ChartUtils.saveAsFile(chart, sizetwo+"/"+png_02, 1024, 420);
-			
+			try {
+				Thread.sleep(1000*2);
+			} catch (InterruptedException e) {
+				break;
+			}
 			try {
 				new HtmlTemplate(png_02);
 			} catch (IOException e1) {

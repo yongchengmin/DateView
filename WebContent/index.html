@@ -1,63 +1,31 @@
-<!doctype html>
-<html lang="zh">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="refresh" content="10">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<META HTTP-EQUIV="pragma" CONTENT="no-cache">
-<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
-<META HTTP-EQUIV="expires" CONTENT="0">
-<title>閺傜増鑵愰弫鐗堝祦閻╂垶甯禖-4</title>
-<link rel="stylesheet" type="text/css" href="css/normalize.css" />
-<link rel="stylesheet" type="text/css" href="css/default.css">
-<link rel="stylesheet" type="text/css" href="css/styles.css">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>正在进入</title>
 </head>
 <body>
-<div class="blocks">
-<input id="left-top" type="checkbox" name="left-top"/>
-<label for="left-top" class="trigger left top"></label>
-<div class="block left top">
-<h1>Left top block heading</h1>
-<div class="content">
-<h2>Left top block inner text heading</h2>
-<div class="htmleaf-links">
-<a class="htmleaf-icon icon-htmleaf-home-outline" href="http://220.178.49.203:8978/jac_parts_wms/mainFrame.html" title="閺傜増鑵怶MS" target="_blank"><span> 閺傜増鑵怶MS</span></a>
-<a class="htmleaf-icon icon-htmleaf-arrow-forward-outline" href="http://220.178.49.203:8978/jac_parts_wms/mainFrame.html" title="妫板嫮鏆�" target="_blank"><span> 鏉╂柨娲栨０鍕殌</span></a>
-</div>
-<p><img src="01_953.png" width="700" height="300"></p> 
-</div>
-</div>
-<input id="right-top" type="checkbox" name="right-top"/>
-<label for="right-top" class="trigger right top"></label>
-<div class="block right top">
-<h1>Right top block heading</h1>
-<div class="content">
-<h2>Right top block inner text heading</h2>
-<p><img src="02.png?rand=h9xqeI" width="700" height="300"></p>
-<p></p>
-</div>
-</div>
-<input id="left-bot" type="checkbox" name="left-bot"/>
-<label for="left-bot" class="trigger left bot"></label>
-<div class="block left bot">
-<h1>Left bottom block heading</h1>
-<div class="content">
-<h2>Left bottom inner text heading</h2>
-<p><img src="03.png" width="700" height="300"></p>
-<p></p>
-</div>
-</div>
-<input id="right-bot" type="checkbox" name="right-bot"/>
-<label for="right-bot" class="trigger right bot"></label>
-<div class="block right bot">
-<h1>Right bottom block heading</h1>
-<div class="content">
-<h2>Right bottom inner text heading</h2>
-<p><img src="04.png" width="700" height="300"></p>
-<p></p>
-</div>
-</div>
-</div>
+<form name=loading> 
+　<p align=center> <font color="#0066ff" size="2">正在进入,请稍等</font><font color="#0066ff" size="2" face="Arial">...</font>
+　　<input type=text name=chart size=46 style="font-family:Arial; font-weight:bolder; color:#0066ff; background-color:#fef4d9; padding:0px; border-style:none;"> 
+　　
+　　<input type=text name=percent size=47 style="color:#0066ff; text-align:center; border-width:medium; border-style:none;"> 
+　　<script>　 
+var bar=0　 
+var line="||"　 
+var amount="||"　 
+count()　 
+function count(){　 
+bar=bar+2　 
+amount =amount + line　 
+document.loading.chart.value=amount　 
+document.loading.percent.value=bar+"%"　 
+if (bar<99)　 
+{setTimeout("count()",100);}　 
+else　 
+{window.location = "http://localhost:8080/DateView/redirtHtml.html";}　 
+}</script> 
+　</p> 
+</form> 
+<p align="center"> 如果您的浏览器不支持跳转,<a style="text-decoration: none" href="redirtHtml.html"><font color="#FF0000">请点这里</font></a>.</p>
 </body>
 </html>

@@ -26,7 +26,7 @@ public class ChartJsonUtils {
 	
 	public static void main(String[] args) {
 		String json = FileUtil.readStrTxt(new File("D://json//BarChart.json"), ChartGlobal.encodeing);
-		System.out.println(json+"\n"+"-----------------------------------------------");
+//		System.out.println(json+"\n"+"-----------------------------------------------");
 		JSONObject jsonObject = JSONObject.fromObject(json);  
 //    	String categories = jsonObject.getString("categories");
 //    	System.out.println(categories);//["Tokyo","New York","London","Berlin"]

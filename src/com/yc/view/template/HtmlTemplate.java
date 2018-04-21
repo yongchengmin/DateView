@@ -10,10 +10,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URL;
+import java.util.Date;
 
 import com.yc.utils.files.PropertiesUtil;
 import com.yc.view.service.ChartPngInit;
 import com.yc.view.utils.ChartGlobal;
+import com.yc.view.utils.DateUtil;
 
 public class HtmlTemplate {
 	static String pathtemplate = null,pathhtml = null;
@@ -26,7 +28,7 @@ public class HtmlTemplate {
 		pathtemplate = urltemplate.getPath();
 		
 //		pathhtml = PropertiesUtil.getPropertiesKey(ChartPngInit.parentPath, ChartGlobal.SIZE_TWO)+"//index.html";
-		pathhtml = ChartPngInit.sizetwo+"//index.html";
+		pathhtml = ChartPngInit.sizetwo+"//redirtHtml.html";
 	}
 	public void toHTml(String r1) throws IOException{
 		if(pathtemplate==null){
@@ -37,9 +39,14 @@ public class HtmlTemplate {
 		String replacetr = new String();
 		replacetr=template;
 		replacetr=replacetr.replace("{block left top png}",r1);//动态
+		replacetr=replacetr.replace("{title}","新港数据监控C-4 "+DateUtil.format(new Date(), DateUtil.h_m_s));//动态
+//		String redirtHtml = "index"+DateUtil.format(new Date(), DateUtil.hhmmssSSS)+ChartGlobal.htmlEnd;
+		String redirtHtml = "redirtHtml"+ChartGlobal.htmlEnd;
+		replacetr=replacetr.replace("{redirtHtml}",redirtHtml);//动态
 		if(pathhtml == null){
-			pathhtml = PropertiesUtil.getPropertiesKey(ChartPngInit.parentPath, ChartGlobal.SIZE_TWO)+"//index.html";
+			pathhtml = PropertiesUtil.getPropertiesKey(ChartPngInit.parentPath, ChartGlobal.SIZE_TWO)+"//redirtHtml.html";
 		}
+//		pathhtml = ChartPngInit.sizetwo+"//"+redirtHtml;
 		createTxt(pathhtml, replacetr.trim(), ChartGlobal.encodeing);
 	}
 	

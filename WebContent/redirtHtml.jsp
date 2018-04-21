@@ -1,18 +1,24 @@
-<!doctype html>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page import= "java.util.Date "%> 
+<%
+response.setHeader("Cache-Control","no-store");
+response.setHeader("Pragma","no-cache");
+response.setDateHeader ("Expires", 0);
+%> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="zh">
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="refresh" content="10;url={redirtHtml}">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <META HTTP-EQUIV="pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
 <META HTTP-EQUIV="expires" CONTENT="0">
-<title>{title}</title>
+<title><%=new Date()%></title>
 <link rel="stylesheet" type="text/css" href="css/normalize.css" />
 <link rel="stylesheet" type="text/css" href="css/default.css">
-<link rel="stylesheet" type="text/css" href="css/styles.css">
+<!-- <link rel="stylesheet" type="text/css" href="css/styles.css"> -->
 </head>
+<script type=”text/javascript“ src=”css/styles.css?+Math.random()“></script> 
 <body>
 <div class="blocks">
 <input id="left-top" type="checkbox" name="left-top"/>
@@ -25,7 +31,7 @@
 <a class="htmleaf-icon icon-htmleaf-home-outline" href="http://220.178.49.203:8978/jac_parts_wms/mainFrame.html" title="XG_WMS" target="_blank"><span>XG_WMS</span></a>
 <a class="htmleaf-icon icon-htmleaf-arrow-forward-outline" href="http://220.178.49.203:8978/jac_parts_wms/mainFrame.html" title="NEXT..." target="_blank"><span> NEXT...</span></a>
 </div>
-<p><img src="{block left top png}" width="700" height="300"></p> 
+<p><img src="01.png" width="700" height="300"></p> 
 </div>
 </div>
 <input id="right-top" type="checkbox" name="right-top"/>
@@ -60,4 +66,12 @@
 </div>
 </div>
 </body>
+<center> 当前时间是： <%=new Date()%> </center> 
+<script language="JavaScript"> 
+function myrefresh() 
+{ 
+window.location.reload(); 
+} 
+setTimeout('myrefresh()',10000); //指定10秒刷新一次 
+</script>
 </html>

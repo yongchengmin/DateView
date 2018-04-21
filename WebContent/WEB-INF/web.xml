@@ -2,6 +2,7 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
   <display-name>DateView</display-name>
   <welcome-file-list>
+  	<welcome-file>chartImageServlet.jsp</welcome-file>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>
     <welcome-file>index.jsp</welcome-file>
@@ -11,5 +12,24 @@
   </welcome-file-list>
   <listener>
         <listener-class>com.yc.view.job.ViewTimerJob</listener-class>
-    </listener>
+    </listener>	
+    
+  <servlet>
+    <servlet-name>VerrifyServlet</servlet-name>
+    <servlet-class>com.yc.view.servlet.VerifyServlet</servlet-class>
+  </servlet>
+   <servlet>
+    <servlet-name>ChartImageServlet</servlet-name>
+    <servlet-class>com.yc.view.servlet.ChartImageServlet</servlet-class>
+  </servlet>
+  
+  
+  <servlet-mapping>
+    <servlet-name>ChartImageServlet</servlet-name>
+    <url-pattern>/chartImage</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>VerrifyServlet</servlet-name>
+    <url-pattern>/verify</url-pattern>
+  </servlet-mapping>
 </web-app>
