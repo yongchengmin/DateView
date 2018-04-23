@@ -30,10 +30,10 @@ public class ViewTimerJob implements ServletContextListener{
 		
 		timer.schedule(new TimerTask(){  
 		    public void run(){
-		    	ChartPngInit.pngInit01();
-		    	System.out.println("pngInit001 running "+DateUtil.format(new Date(), DateUtil.dmy_hms));  
-		    	ChartPngInit.pngInit02();
-		    	System.out.println("pngInit002 running "+DateUtil.format(new Date(), DateUtil.dmy_hms));
+//		    	ChartPngInit.pngInit01();
+//		    	System.out.println("pngInit001 running "+DateUtil.format(new Date(), DateUtil.dmy_hms));  
+//		    	ChartPngInit.pngInit02();
+//		    	System.out.println("pngInit002 running "+DateUtil.format(new Date(), DateUtil.dmy_hms));
 		    }  
 		 }, 2000);//启动2秒后开始执行,就一次
         System.out.println("ִviewTimerJob initialized time:" + DateUtil.format(new Date(), DateUtil.dmy_hms));  

@@ -13,7 +13,7 @@ response.setDateHeader ("Expires", 0);
 <META HTTP-EQUIV="pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
 <META HTTP-EQUIV="expires" CONTENT="0">
-<title>新港数据监控系统C-1</title>
+<title>新港动态数据监控系统</title>
 <!-- <link rel="stylesheet" type="text/css" href="css/styles.css"> -->
 </head>
 <body>
@@ -22,7 +22,7 @@ response.setDateHeader ("Expires", 0);
 <div class="content">
 <div class="htmleaf-links">
 <a class="htmleaf-icon icon-htmleaf-home-outline" href="http://220.178.49.203:8978/jac_parts_wms/mainFrame.html" title="XG_WMS" target="_blank"><span>XG_WMS</span></a>
-<!-- <a class="htmleaf-icon icon-htmleaf-arrow-forward-outline" href="http://220.178.49.203:8978/jac_parts_wms/mainFrame.html" title="NEXT..." target="_blank"><span> NEXT...</span></a> -->
+<a class="htmleaf-icon icon-htmleaf-arrow-forward-outline" href="http://220.178.49.203:8978/jac_parts_wms/mainFrame.html" title="NEXT..." target="_blank"><span> NEXT...</span></a>
 </div>
 <p><img src="http://localhost:8080/DateView/chartImage" width="1024" height="420"></p> 
 </div>

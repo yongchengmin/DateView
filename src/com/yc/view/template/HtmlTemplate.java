@@ -12,8 +12,6 @@ import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.util.Date;
 
-import com.yc.utils.files.PropertiesUtil;
-import com.yc.view.service.ChartPngInit;
 import com.yc.view.utils.ChartGlobal;
 import com.yc.view.utils.DateUtil;
 
@@ -26,9 +24,6 @@ public class HtmlTemplate {
 	static {
 		URL urltemplate = HtmlTemplate.class.getResource("index.template");
 		pathtemplate = urltemplate.getPath();
-		
-//		pathhtml = PropertiesUtil.getPropertiesKey(ChartPngInit.parentPath, ChartGlobal.SIZE_TWO)+"//index.html";
-		pathhtml = ChartPngInit.sizetwo+"//redirtHtml.html";
 	}
 	public void toHTml(String r1) throws IOException{
 		if(pathtemplate==null){
@@ -43,10 +38,6 @@ public class HtmlTemplate {
 //		String redirtHtml = "index"+DateUtil.format(new Date(), DateUtil.hhmmssSSS)+ChartGlobal.htmlEnd;
 		String redirtHtml = "redirtHtml"+ChartGlobal.htmlEnd;
 		replacetr=replacetr.replace("{redirtHtml}",redirtHtml);//动态
-		if(pathhtml == null){
-			pathhtml = PropertiesUtil.getPropertiesKey(ChartPngInit.parentPath, ChartGlobal.SIZE_TWO)+"//redirtHtml.html";
-		}
-//		pathhtml = ChartPngInit.sizetwo+"//"+redirtHtml;
 		createTxt(pathhtml, replacetr.trim(), ChartGlobal.encodeing);
 	}
 	

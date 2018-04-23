@@ -1,15 +1,12 @@
 package com.yc.view.chart;
 
 import java.awt.Color;
-import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URL;
 import java.util.Vector;
-
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
 import net.sf.json.JSONObject;
 
@@ -20,12 +17,10 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.block.BlockBorder;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import com.yc.utils.esbUtils.FileUtil;
-import com.yc.utils.files.PropertiesUtil;
-import com.yc.view.chart.demo.BarChart;
 import com.yc.view.utils.ChartGlobal;
 import com.yc.view.utils.ChartJsonUtils;
 import com.yc.view.utils.ChartUtils;
+import com.yc.view.utils.ProjectUtils;
 import com.yc.view.utils.Serie;
 /**柱状图,01.png*/
 public class BarChartLay {
@@ -79,12 +74,40 @@ public class BarChartLay {
 		}
 	}
 	
-	public static JFreeChart createChart(String pathname) {
-		File file = new File(pathname);
-		if(!file.exists()){
-			return null;
-		}
-		String json = FileUtil.readStrTxt(file, ChartGlobal.encodeing);
+	public static JFreeChart createChart() {
+//		File file = new File(pathname);
+//		if(!file.exists()){
+//			return null;
+//		}
+//		String json = FileUtil.readStrTxt(file, ChartGlobal.encodeing);
+		String pathname = ProjectUtils.getPropertiesKey(ChartGlobal.LEFT_TOP_JSON);
+//		URL url = BarChartLay.class.getResource("01.json");
+		FileInputStream hFile;
+		int i = 0;
+		byte[] data=null;
+		try {
+			hFile = new FileInputStream(pathname);// 以byte流的方式打开文件
+			try {
+				i = hFile.available();//得到文件大小
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
+			data=new byte[i];
+			try {
+				hFile.read(data);//读数据
+			} catch (IOException e) {
+				e.printStackTrace();
+			}  
+			try {
+				hFile.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} 
+		String json = ProjectUtils.getString(data);
+		
 		JSONObject jsonObject = JSONObject.fromObject(json);
 		String title = jsonObject.getString(ChartJsonUtils.TITLE);
 		String categoryAxisLabel = jsonObject.getString(ChartJsonUtils.CATEGORYAXISLABEL);
@@ -103,9 +126,9 @@ public class BarChartLay {
 		return chart;
 	}
 	
-	public static ChartPanel getChartPanel(String pathname){
+	public static ChartPanel getChartPanel(){
 		// 6:使用chartPanel接收
-		ChartPanel chartPanel = new ChartPanel(createChart(pathname));
+		ChartPanel chartPanel = new ChartPanel(createChart());
 		return chartPanel;
 	}
 
@@ -127,15 +150,15 @@ public class BarChartLay {
 //			}
 //		});
 		
-//		try {
-//			outPng(pathname);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			outPng("./01.json");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
-		String sizetwo = PropertiesUtil.getPropertiesKey(ChartGlobal.PORTMESG, ChartGlobal.SIZE_TWO);
-		JFreeChart chart = new BarChartLay(sizetwo+"/01.json").getJFreeChart();
-		ChartUtils.saveAsFile(chart, sizetwo+"/01.png", 1024, 420);
+//		String sizetwo = PropertiesUtil.getPropertiesKey(ChartGlobal.PORTMESG, ChartGlobal.SIZE_TWO);
+//		JFreeChart chart = new BarChartLay(sizetwo+"/01.json").getJFreeChart();
+//		ChartUtils.saveAsFile(chart, sizetwo+"/01.png", 1024, 420);
 		
 //		createDataset(pathname);
 //		File file = new File(pathname);
@@ -150,8 +173,8 @@ public class BarChartLay {
     }
 	ChartPanel frame1;
 	/**柱状图,01.png*/
-    public BarChartLay(String pathname){
-    	chart = createChart(pathname);
+    public BarChartLay(){
+    	chart = createChart();
     	frame1=new ChartPanel(chart,true);
     }
 	
@@ -159,7 +182,7 @@ public class BarChartLay {
     	//图片是文件格式的,故要用到FileOutputStream用来输出.
     	 OutputStream os = new FileOutputStream("01.jpeg");
     	//使用一个面向application的工具类,将chart转换成JPEG格式的图片.第3个参数是宽度,第4个参数是高度.
-         ChartUtilities.writeChartAsJPEG(os, new BarChartLay(pathname).getJFreeChart(), 1024, 420);
+         ChartUtilities.writeChartAsJPEG(os, new BarChartLay().getJFreeChart(), 1024, 420);
          os.close();//关闭输出流
     }
 }

@@ -1,7 +1,15 @@
 package com.yc.view.utils;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.Properties;
 import java.util.Random;
+
+import com.yc.utils.files.PropertiesUtil;
 
 public class ProjectUtils {
 //	static String parentPath = null;
@@ -31,6 +39,71 @@ public class ProjectUtils {
 			}
         }
 	}
+	
+	public static String getString(byte[] data){
+		String str = null;
+		try {
+			str=new String( data ,ChartGlobal.encodeing);
+		} catch (UnsupportedEncodingException e) {
+			str = e.getMessage();
+		}
+		return str;
+		/**
+		 *使用案例 
+		FileInputStream hFile;
+		int i = 0;
+		byte[] data = null;
+		try {
+			hFile = new FileInputStream("D:/jac_gitee_v002/DateView/WebContent/01.json");// 以byte流的方式打开文件
+			try {
+				i = hFile.available();//得到文件大小
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
+			data=new byte[i];
+			try {
+				hFile.read(data);//读数据
+			} catch (IOException e) {
+				e.printStackTrace();
+			}  
+			try {
+				hFile.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} 
+		String str = getString(data);
+		System.out.println(str);
+		 */
+	}
+	
+	public static byte[] getByte(String str){
+		byte[] data = null;
+		try {
+			data = str .getBytes(ChartGlobal.encodeing);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return data;
+	}
+	
+	public static String getPropertiesKey(String key){
+		String pathname = null;
+		Properties pp = new Properties();
+		InputStream in = ProjectUtils.class.getClassLoader().getResourceAsStream(PropertiesUtil.PROPERTIES_ACCESS_TOKEN);
+		 try {
+			pp.load(in);
+			pathname = pp.getProperty(key);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}finally{
+        	pp = null;
+        	in = null;
+        }
+		return pathname;
+	}
 
 	public static String getCurrentPath(){  
 	       //取得根目录路径  
@@ -56,7 +129,34 @@ public class ProjectUtils {
 	   }
 	
 	public static void main(String[] args) {
-		deleteFile("D:\\json", ".png");
+		FileInputStream hFile;
+		int i = 0;
+		byte[] data = null;
+		try {
+			hFile = new FileInputStream("D:/jac_gitee_v002/DateView/WebContent/01.json");// 以byte流的方式打开文件
+			try {
+				i = hFile.available();//得到文件大小
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
+			data=new byte[i];
+			try {
+				hFile.read(data);//读数据
+			} catch (IOException e) {
+				e.printStackTrace();
+			}  
+			try {
+				hFile.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} 
+		String str = getString(data);
+		System.out.println(str);
+		
+//		deleteFile("D:\\json", ".png");
 //		System.out.println(getRandomUtils(3));
 //		Random random = new Random();
 //		System.out.println(random.nextInt(10));
