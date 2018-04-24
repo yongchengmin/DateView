@@ -1,19 +1,24 @@
 package com.yc.view.servlet;
 
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jfree.chart.ChartUtilities;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
 import com.yc.view.chart.BarChartLay;
+import com.yc.view.service.ChartJdbcInit;
 import com.yc.view.utils.ChartGlobal;
+import com.yc.view.utils.ProjectUtils;
 //http://localhost:8080/DateView/chartJson?parameter=left_top_json
 public class ChartImageServlet extends HttpServlet{
 
@@ -21,14 +26,20 @@ public class ChartImageServlet extends HttpServlet{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	protected static ApplicationContext ac;
+	protected ChartJdbcInit chartJdbcInit;
 
 	/**
      * @see HttpServlet#HttpServlet()
      */
     public ChartImageServlet() {
-        super();
         // TODO Auto-generated constructor stub
     }
+    public void init(ServletConfig sc) throws ServletException {
+		super.init(sc);
+		ac = WebApplicationContextUtils.getRequiredWebApplicationContext(sc.getServletContext());
+		chartJdbcInit = (ChartJdbcInit) ac.getBean(ChartJdbcInit.BEAN);
+	}
     
     /**
     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -47,6 +58,22 @@ public class ChartImageServlet extends HttpServlet{
 //    	System.out.println("内容所在路径:"+request.getContextPath());
 //    	System.out.println("绝对路径:"+request.getRequestURL());
 //    	System.out.println(this.getServletContext().getRealPath("01.json"));
+    	
+    	/*int i = 0;
+    	List list = chartJdbcInit.dataNo0QueryForList("select t.id,t.code,t.name from DRIVER t where t.creator = '王欢'");
+    	Iterator iMes = list.iterator();
+    	while(iMes.hasNext()){
+    		Map m = (Map) iMes.next();
+    		Long id = ((BigDecimal) m.get("ID")).longValue();
+    		String code = m.get("code")==null?"-": m.get("code").toString();
+    		String name = m.get("name")==null?"-": m.get("name").toString();
+    		System.out.println(id+","+code+","+name);
+    		i++;
+    		if(i>=10){
+    			break;
+    		}
+    	}*/
+    	
     	String name = null;
     	if(ChartGlobal.LEFT_TOP_JSON.equals(request.getParameter("parameter"))){
     		name = ChartGlobal.LEFT_TOP_JSON+ChartGlobal.imageEnd;
@@ -68,12 +95,7 @@ public class ChartImageServlet extends HttpServlet{
     
     protected void returnRequest(HttpServletResponse response,String name) throws IOException {
     	try{
-    		FileInputStream hFile = new FileInputStream(name); // 以byte流的方式打开文件
-    		int i=hFile.available(); //得到文件大小
-    		byte data[]=new byte[i];
-    		hFile.read(data);  //读数据
-    		hFile.close();
-    		
+    		byte data[] = ProjectUtils.getByte(name);
 	    	// 重设为image/jpeg
 			response.setContentType("image/jpeg");
 			// 设置页面不缓存

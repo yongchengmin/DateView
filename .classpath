@@ -13,13 +13,25 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="var" path="MAVEN_REPO/json/jars/ezmorph-1.0.6.jar"/>
-	<classpathentry kind="var" path="MAVEN_REPO/json/jars/json-lib-2.4-jdk15.jar"/>
-	<classpathentry kind="var" path="MAVEN_REPO/json/jars/jsonplugin-0.34.jar"/>
-	<classpathentry kind="var" path="MAVEN_REPO/json/jars/jsontools-core-1.7.jar"/>
-	<classpathentry kind="var" path="MAVEN_REPO/jac_esb/jars/commons-lang-2.6.jar"/>
-	<classpathentry kind="var" path="MAVEN_REPO/jac_esb/jars/commons-logging-1.2.jar"/>
-	<classpathentry kind="var" path="MAVEN_REPO/commons-collections/jars/commons-collections-3.1.jar"/>
-	<classpathentry kind="var" path="MAVEN_REPO/commons-beanutils/jars/commons-beanutils-1.7.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-beanutils-1.7.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-collections-3.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-dbcp-1.2.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-lang-2.6.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-pool-1.2.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ezmorph-1.0.6.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jcommon-1.0.20.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jfreechart-1.0.16-experimental.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jfreechart-1.0.16.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/json-lib-2.4-jdk15.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jsonplugin-0.34.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jsontools-core-1.7.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-2m.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-mock-2.0-rc3.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ycUtils-1.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/servlet-api-2.3.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/hibernate-3.2.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jta-1.0.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/dom4j-1.6.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

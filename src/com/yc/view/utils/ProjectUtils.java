@@ -79,13 +79,22 @@ public class ProjectUtils {
 		 */
 	}
 	
-	public static byte[] getByte(String str){
-		byte[] data = null;
-		try {
-			data = str .getBytes(ChartGlobal.encodeing);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
+//	public static byte[] getByte(String str){
+//		byte[] data = null;
+//		try {
+//			data = str.getBytes(ChartGlobal.encodeing);
+//		} catch (UnsupportedEncodingException e) {
+//			e.printStackTrace();
+//		}
+//		return data;
+//	}
+	
+	public static byte[] getByte(String name) throws IOException{
+		FileInputStream hFile = new FileInputStream(name); // 以byte流的方式打开文件
+		int i=hFile.available(); //得到文件大小
+		byte[] data = new byte[i];
+		hFile.read(data);  //读数据
+		hFile.close();
 		return data;
 	}
 	

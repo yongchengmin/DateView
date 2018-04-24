@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC
+        "-//SPRING//DTD BEAN//EN"
+        "http://www.springframework.org/dtd/spring-beans.dtd">
+<!-- $Id: serviceContext.xml,v 1.12 2017/05/12 10:08:48 yongcheng.min Exp $ -->
+
+<beans>
+<!--     <bean id="transactionManagerFactory"  -->
+<!-- 		class="com.yc.view.spring.factory.TransactionManagerFactoryBean"> -->
+<!-- 	</bean> -->
+	
+<!-- 	<bean id="abstractTransactionProxy" abstract="true" -->
+<!--           class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"> -->
+<!--         <property name="transactionManager"> -->
+<!--             <ref bean="transactionManagerFactory"/> -->
+<!--         </property> -->
+<!--         <property name="transactionAttributeSource"> -->
+<!--             <bean class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource"/> -->
+<!--         </property> -->
+<!--     </bean> -->
+
+	<bean id="baseManager" class="com.yc.view.service.BaseManagerImp">
+	</bean>
+	<bean id="jdbcDataSource"
+        class="org.springframework.jdbc.core.JdbcTemplate" abstract="false"
+        lazy-init="false" autowire="default" dependency-check="default">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+
+	<bean id="chartJdbcInit" class="com.yc.view.service.ChartJdbcInitImp" parent="baseManager">
+		<property name="jdbcExtendDataNo0">
+          	<ref bean="jdbcDataSource" />
+       	</property>
+	</bean>
+</beans>
