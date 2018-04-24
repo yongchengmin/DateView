@@ -34,4 +34,10 @@
           	<ref bean="jdbcDataSource" />
        	</property>
 	</bean>
+	
+	<bean id="chartjsonInit" class="com.yc.view.service.ChartjsonInitImp" parent="baseManager">
+		<constructor-arg>
+			<ref bean="chartJdbcInit"></ref>
+		</constructor-arg>
+	</bean>
 </beans>

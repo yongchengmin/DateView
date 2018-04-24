@@ -17,9 +17,10 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.yc.view.chart.BarChartLay;
 import com.yc.view.service.ChartJdbcInit;
+import com.yc.view.service.ChartjsonInit;
 import com.yc.view.utils.ChartGlobal;
 import com.yc.view.utils.ProjectUtils;
-//http://localhost:8080/DateView/chartJson?parameter=left_top_json
+//http://localhost:8080/DateView/chartJson?parameter=left_top
 public class ChartImageServlet extends HttpServlet{
 
 	/**
@@ -28,6 +29,7 @@ public class ChartImageServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	protected static ApplicationContext ac;
 	protected ChartJdbcInit chartJdbcInit;
+	protected ChartjsonInit chartjsonInit;
 
 	/**
      * @see HttpServlet#HttpServlet()
@@ -39,6 +41,7 @@ public class ChartImageServlet extends HttpServlet{
 		super.init(sc);
 		ac = WebApplicationContextUtils.getRequiredWebApplicationContext(sc.getServletContext());
 		chartJdbcInit = (ChartJdbcInit) ac.getBean(ChartJdbcInit.BEAN);
+		chartjsonInit = (ChartjsonInit) ac.getBean(ChartjsonInit.BEAN);
 	}
     
     /**
@@ -59,20 +62,7 @@ public class ChartImageServlet extends HttpServlet{
 //    	System.out.println("绝对路径:"+request.getRequestURL());
 //    	System.out.println(this.getServletContext().getRealPath("01.json"));
     	
-    	/*int i = 0;
-    	List list = chartJdbcInit.dataNo0QueryForList("select t.id,t.code,t.name from DRIVER t where t.creator = '王欢'");
-    	Iterator iMes = list.iterator();
-    	while(iMes.hasNext()){
-    		Map m = (Map) iMes.next();
-    		Long id = ((BigDecimal) m.get("ID")).longValue();
-    		String code = m.get("code")==null?"-": m.get("code").toString();
-    		String name = m.get("name")==null?"-": m.get("name").toString();
-    		System.out.println(id+","+code+","+name);
-    		i++;
-    		if(i>=10){
-    			break;
-    		}
-    	}*/
+    	chartjsonInit.leftTop();
     	
     	String name = null;
     	if(ChartGlobal.LEFT_TOP_JSON.equals(request.getParameter("parameter"))){

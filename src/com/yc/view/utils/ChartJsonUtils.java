@@ -7,21 +7,21 @@ import net.sf.json.JSONObject;
 import com.yc.utils.esbUtils.FileUtil;
 
 public class ChartJsonUtils {
-	public static String TITLE = "title";
+	public static String TITLE = "TITLE";
 	/**主标题下内容*/
-	public static String CATEGORYAXISLABEL = "categoryAxisLabel";
+	public static String CATEGORYAXISLABEL = "CATEGORYAXISLABEL";
 	/**Y轴(左)描述*/
-	public static String VALUEAXISLABEL = "valueAxisLabel";
+	public static String VALUEAXISLABEL = "VALUEAXISLABEL";
 	/**Y轴(右)描述*/
-	public static String NUMBERAXIS = "numberaxis";
+	public static String NUMBERAXIS = "NUMBERAXIS";
 	
-	public static String CATEGORIES = "categories";
-	public static String PILLAR = "pillar";//柱状
-	public static String LINE = "line";//折线
+	public static String CATEGORIES = "CATEGORIES";
+	public static String PILLAR = "PILLAR";//柱状
+	public static String LINE = "LINE";//折线
 	
-	public static String Y = "y";
-	public static String X = "x";
-	public static String DATE = "date";
+	public static String Y = "Y";
+	public static String X = "X";
+	public static String DATE = "DATE";
 	public static String COMMA = ",";
 	
 	public static void main(String[] args) {

@@ -17,6 +17,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.block.BlockBorder;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import com.yc.view.exception.BusinessException;
 import com.yc.view.utils.ChartGlobal;
 import com.yc.view.utils.ChartJsonUtils;
 import com.yc.view.utils.ChartUtils;
@@ -81,6 +82,9 @@ public class BarChartLay {
 //		}
 //		String json = FileUtil.readStrTxt(file, ChartGlobal.encodeing);
 		String pathname = ProjectUtils.getPropertiesKey(ChartGlobal.LEFT_TOP_JSON);
+		if(pathname == null){
+			throw new BusinessException("accessToken.properties文件未配置left_top路径");
+		}
 //		URL url = BarChartLay.class.getResource("01.json");
 		FileInputStream hFile;
 		int i = 0;

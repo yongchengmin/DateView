@@ -1,14 +1,14 @@
 {
-	"title": "装车单未执行监控",
-	"categoryAxisLabel":"",
-	"valueAxisLabel":"未执行(个)",
-	"categories":[ 
+	"TITLE": "装车单未执行监控",
+	"CATEGORYAXISLABEL":"",
+	"VALUEAXISLABEL":"未执行(个)",
+	"CATEGORIES":[ 
 		"任务数","3分钟以内","3-5分钟","5分钟以上"
 	],
-	"x": [
+	"X": [
 		"2018-04-20 14:20:11"
 	],
-	"y":{
+	"Y":{
 		"任务数": [
 			95
 		],
