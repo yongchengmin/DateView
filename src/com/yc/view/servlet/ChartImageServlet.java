@@ -61,13 +61,11 @@ public class ChartImageServlet extends HttpServlet{
 //    	System.out.println("内容所在路径:"+request.getContextPath());
 //    	System.out.println("绝对路径:"+request.getRequestURL());
 //    	System.out.println(this.getServletContext().getRealPath("01.json"));
-    	
-    	chartjsonInit.leftTop();
-    	
+    	String json = chartjsonInit.leftTop();
     	String name = null;
-    	if(ChartGlobal.LEFT_TOP_JSON.equals(request.getParameter("parameter"))){
-    		name = ChartGlobal.LEFT_TOP_JSON+ChartGlobal.imageEnd;
-    		outBarChartLayJpeg(name);
+    	if(ChartGlobal.LEFT_TOP.equals(request.getParameter("parameter"))){
+    		name = ChartGlobal.LEFT_TOP+ChartGlobal.imageEnd;
+    		outBarChartLayJpeg(json,name);
     		returnRequest(response,name);
     	}else{
     		returnErrorRequest(response,"parameter is not avaliable!");
@@ -75,11 +73,11 @@ public class ChartImageServlet extends HttpServlet{
     	
     }
     
-    protected void outBarChartLayJpeg(String name) throws IOException{
+    protected void outBarChartLayJpeg(String json,String name) throws IOException{
     	//图片是文件格式的,故要用到FileOutputStream用来输出.
     	 OutputStream os = new FileOutputStream(name);
     	//使用一个面向application的工具类,将chart转换成JPEG格式的图片.第3个参数是宽度,第4个参数是高度.
-         ChartUtilities.writeChartAsJPEG(os, new BarChartLay().getJFreeChart(), 1024, 420);
+         ChartUtilities.writeChartAsJPEG(os, new BarChartLay(json).getJFreeChart(), 1024, 420);
          os.close();//关闭输出流
     }
     

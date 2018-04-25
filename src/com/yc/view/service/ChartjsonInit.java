@@ -3,5 +3,5 @@ package com.yc.view.service;
 public interface ChartjsonInit {
 	public static final String BEAN = "chartjsonInit";
 	
-	void leftTop();
+	String leftTop();
 }

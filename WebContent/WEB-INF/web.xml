@@ -17,10 +17,14 @@
         <param-value>
             classpath:dataSourceContext.xml
             classpath*:serviceContext.xml
-            <!--  classpath*:daoContext.xml -->
+            classpath:adapterContext.xml
         </param-value>
-    </context-param>
-  
+ 	</context-param>
+  	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>classpath:log4j.properties</param-value>
+	</context-param>
+	
    <filter>
         <filter-name>encoding</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -44,6 +48,9 @@
  	<listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+    <listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
     
   <servlet>
     <servlet-name>VerrifyServlet</servlet-name>

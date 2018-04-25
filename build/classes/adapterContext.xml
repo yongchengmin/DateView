@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC
+        "-//SPRING//DTD BEAN//EN"
+        "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<!-- $Id: adapterContext.xml,v 1.1.1.1 2016/12/14 02:56:52 yongcheng.min Exp $ -->
+<beans>
+	<bean id="ediSchedulerBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="handleMailTrigger" />
+			</list>
+		</property>
+		<property name="quartzProperties">
+			<props>
+				<prop key="org.quartz.threadPool.threadCount">20</prop>
+			</props>
+		</property>
+	</bean>
+	
+	
+	<bean id="handleMailJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="ediJobHelper" />
+		<property name="targetMethod" value="doHandleJob" />
+	</bean>
+	<bean id="handleMailTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail" ref="handleMailJob" />
+		<property name="startDelay" value="10000" /><!-- 调度工厂实例化后，经过10秒开始执行调度 --> 
+		<property name="repeatInterval" value="2000" /><!-- 每2秒调度一次 -->
+		<property name="repeatCount" value="0" />
+	</bean>
+</beans>

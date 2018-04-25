@@ -16,8 +16,13 @@ import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.block.BlockBorder;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 import com.yc.view.exception.BusinessException;
+import com.yc.view.service.BaseManager;
+import com.yc.view.service.BaseManagerImp;
 import com.yc.view.utils.ChartGlobal;
 import com.yc.view.utils.ChartJsonUtils;
 import com.yc.view.utils.ChartUtils;
@@ -75,17 +80,11 @@ public class BarChartLay {
 		}
 	}
 	
-	public static JFreeChart createChart() {
-//		File file = new File(pathname);
-//		if(!file.exists()){
-//			return null;
-//		}
-//		String json = FileUtil.readStrTxt(file, ChartGlobal.encodeing);
-		String pathname = ProjectUtils.getPropertiesKey(ChartGlobal.LEFT_TOP_JSON);
+	public static JFreeChart createChart(String json) {
+		/*String pathname = ProjectUtils.getPropertiesKey(ChartGlobal.LEFT_TOP_JSON);
 		if(pathname == null){
 			throw new BusinessException("accessToken.properties文件未配置left_top路径");
 		}
-//		URL url = BarChartLay.class.getResource("01.json");
 		FileInputStream hFile;
 		int i = 0;
 		byte[] data=null;
@@ -110,7 +109,7 @@ public class BarChartLay {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} 
-		String json = ProjectUtils.getString(data);
+		String json = ProjectUtils.getString(data);*/
 		
 		JSONObject jsonObject = JSONObject.fromObject(json);
 		String title = jsonObject.getString(ChartJsonUtils.TITLE);
@@ -128,11 +127,19 @@ public class BarChartLay {
 		// 设置标注无边框
 		chart.getLegend().setFrame(new BlockBorder(Color.WHITE));
 		return chart;
+		
+		
+//		File file = new File(pathname);
+//		if(!file.exists()){
+//			return null;
+//		}
+//		String json = FileUtil.readStrTxt(file, ChartGlobal.encodeing);
+//		URL url = BarChartLay.class.getResource("01.json");
 	}
 	
-	public static ChartPanel getChartPanel(){
+	public static ChartPanel getChartPanel(String json){
 		// 6:使用chartPanel接收
-		ChartPanel chartPanel = new ChartPanel(createChart());
+		ChartPanel chartPanel = new ChartPanel(createChart(json));
 		return chartPanel;
 	}
 
@@ -177,16 +184,16 @@ public class BarChartLay {
     }
 	ChartPanel frame1;
 	/**柱状图,01.png*/
-    public BarChartLay(){
-    	chart = createChart();
+    public BarChartLay(String json){
+    	chart = createChart(json);
     	frame1=new ChartPanel(chart,true);
     }
 	
-    public static void outPng(String pathname) throws IOException{
+    public static void outPng(String json) throws IOException{
     	//图片是文件格式的,故要用到FileOutputStream用来输出.
     	 OutputStream os = new FileOutputStream("01.jpeg");
     	//使用一个面向application的工具类,将chart转换成JPEG格式的图片.第3个参数是宽度,第4个参数是高度.
-         ChartUtilities.writeChartAsJPEG(os, new BarChartLay().getJFreeChart(), 1024, 420);
+         ChartUtilities.writeChartAsJPEG(os, new BarChartLay(json).getJFreeChart(), 1024, 420);
          os.close();//关闭输出流
     }
 }

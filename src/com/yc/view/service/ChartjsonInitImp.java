@@ -6,8 +6,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import com.yc.utils.esbUtils.JsonTools;
+import com.yc.utils.files.PropertiesUtil;
+import com.yc.view.exception.BusinessException;
+import com.yc.view.utils.ChartGlobal;
 import com.yc.view.utils.ProjectUtils;
 
 public class ChartjsonInitImp implements ChartjsonInit{
@@ -16,39 +18,96 @@ public class ChartjsonInitImp implements ChartjsonInit{
 		super();
 		this.chartJdbcInit = chartJdbcInit;
 	}
-	public void leftTop() {
-		String sqlPath = "D://jac_gitee_v002//DateView//WebContent//chartTable//left_top_insert.sql";
+	public String leftTop() {
+		String sqlPath = ProjectUtils.getPropertiesKey(ChartGlobal.LEFT_TOP);
+		if(sqlPath == null){
+			throw new BusinessException(PropertiesUtil.PROPERTIES_ACCESS_TOKEN+"未配置"+ChartGlobal.LEFT_TOP+"路径");
+		}
 		String sql = null;
 		try {
 			sql = ProjectUtils.getString(ProjectUtils.getByte(sqlPath));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		chartJdbcInit.dataNo0Execute(sql);
+		try {
+			chartJdbcInit.dataNo0Execute(sql);
+		} catch (Exception e) {
+			throw new BusinessException(e.getMessage());
+		}
+		
 		
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		
-    	List list = chartJdbcInit.dataNo0QueryForList("select TITLE,CATEGORYAXISLABEL,VALUEAXISLABEL from LEFT_TOP_HEAD");
+    	List list = chartJdbcInit.dataNo0QueryForList("SELECT TITLE,CATEGORYAXISLABEL,VALUEAXISLABEL FROM LEFT_TOP_HEAD");
     	Iterator iMes = list.iterator();
     	while(iMes.hasNext()){
     		Map m = (Map) iMes.next();
-    		String title = m.get("TITLE")==null?"-": m.get("TITLE").toString();
-    		String categoryaxislabel = m.get("CATEGORYAXISLABEL")==null?"-": m.get("CATEGORYAXISLABEL").toString();
-    		String valueaxislabel = m.get("VALUEAXISLABEL")==null?"-": m.get("VALUEAXISLABEL").toString();
+    		String title = m.get("TITLE")==null?"-": m.get("TITLE").toString().trim();
+    		String categoryaxislabel = m.get("CATEGORYAXISLABEL")==null?"-": m.get("CATEGORYAXISLABEL").toString().trim();
+    		String valueaxislabel = m.get("VALUEAXISLABEL")==null?"-": m.get("VALUEAXISLABEL").toString().trim();
     		paramMap.put("TITLE", title);
     		paramMap.put("CATEGORYAXISLABEL", categoryaxislabel);
     		paramMap.put("VALUEAXISLABEL", valueaxislabel);
     		break;
     	}list.clear();
     	
-    	list = chartJdbcInit.dataNo0QueryForList("select CATEGORIES,X,QUANTITY from LEFT_TOP_Y");
+    	List<String> categoriesS = new ArrayList<String>();
+    	List<String> xS = new ArrayList<String>();
+    	Map<String,List<Double>> yM = new HashMap<String,List<Double>>();
+    	list = chartJdbcInit.dataNo0QueryForList("SELECT CATEGORIES,X,QUANTITY FROM LEFT_TOP_Y ORDER BY LINE ASC");
     	iMes = list.iterator();
     	while(iMes.hasNext()){
     		Map m = (Map) iMes.next();
-    		String categories = m.get("CATEGORIES")==null?"-": m.get("CATEGORIES").toString();
-    		String x = m.get("X")==null?"-": m.get("X").toString();
+    		String categories = m.get("CATEGORIES")==null?"-": m.get("CATEGORIES").toString().trim();
+    		String x = m.get("X")==null?"-": m.get("X").toString().trim();
     		Double quantity = m.get("QUANTITY")==null?0D: Double.valueOf(m.get("QUANTITY").toString());
-    	}
+    		
+    		List<Double> l = new ArrayList<Double>();
+			l.add(quantity);
+			yM.put(categories, l);
+    		
+			if(!categoriesS.contains(categories)){
+				categoriesS.add(categories);
+			}
+    		if(!xS.contains(x)){
+    			xS.add(x);
+    		}
+    	}list.clear();
+    	paramMap.put("CATEGORIES", categoriesS);
+    	paramMap.put("X", xS);
+    	paramMap.put("Y", yM);
+    	String json = JsonTools.getCreateJson(paramMap);
+    	paramMap.clear();
+    	System.out.println(json);
+    	/**
+    	 * {
+			"CATEGORYAXISLABEL":"-",
+			"CATEGORIES":[
+				"3分钟以内",
+				"任务数",
+				"5分钟以上",
+				"3-5分钟"
+			],
+			"Y":{
+				"3分钟以内":[
+					78
+				],
+				"任务数":[
+					95
+				],
+				"5分钟以上":[
+					6
+				],
+				"3-5分钟":[
+					10
+				]
+			},
+			"X":"[2018-04-25 09:26:53]",
+			"VALUEAXISLABEL":"未执行(个)",
+			"TITLE":"装车单未执行监控"
+			}
+    	 */
+		return json;
 	}
 
 	public static void main(String[] args) {
@@ -117,5 +176,25 @@ public class ChartjsonInitImp implements ChartjsonInit{
 			}
 		 */
 		return map;
+	}
+	
+	@SuppressWarnings("unused")
+	private static String resetStr(String str,String separatorAfter,String separatorLast){
+		String parameter = org.apache.commons.lang.StringUtils.substringAfter(str, separatorAfter);
+		parameter = org.apache.commons.lang.StringUtils.substringBeforeLast(parameter,separatorLast);
+		return parameter;
+		
+	}
+	
+	@SuppressWarnings("unused")
+	private static StringBuffer resetParam(Map<String, Object> paramMap){
+		String parameter = org.apache.commons.lang.StringUtils.substringAfter(paramMap.toString(), "{");
+		parameter = org.apache.commons.lang.StringUtils.substringBeforeLast(parameter, "}");
+		String[] s1 = parameter.split(",");
+		StringBuffer sb = new StringBuffer(s1.length);
+		for(String ss : s1){
+			sb.append(ss.trim()).append("&");
+		}
+		return sb;
 	}
 }
