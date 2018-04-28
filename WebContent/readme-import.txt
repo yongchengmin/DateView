@@ -3,7 +3,6 @@
 发布前:
 1-view.html:<img src="http://localhost:8080/...">IP和端口号改为实际发布地址和端口号
 2-accessToken.properties:
-left_top:左上角展示信息执行sql文件路径,配置信息要和实际接口地址一致即可
 
 开发时:
 

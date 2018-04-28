@@ -15,7 +15,7 @@
 <!-- 			<value>jdbc:oracle:thin:@192.168.10.218:1521:jqwldb</value> -->
         </property>
         <property name="username">
-            <value>jac_pcl_zs</value>
+            <value>jacpartswms</value>
         </property>
         <property name="password">
             <value>xxjsb</value>

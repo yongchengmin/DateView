@@ -1,14 +1,16 @@
 package com.yc.view.job;
 
-import java.util.Date;
+import java.io.IOException;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import com.yc.view.service.ChartPngInit;
-import com.yc.view.utils.DateUtil;
+import com.yc.view.sql.SqlLoad;
+import com.yc.view.sql.SqlPackageScanner;
+import com.yc.view.sql.SqlpathPackageScanner;
 
 public class ViewTimerJob implements ServletContextListener{
 	Timer timer = new Timer();
@@ -34,10 +36,21 @@ public class ViewTimerJob implements ServletContextListener{
 //		    	System.out.println("pngInit001 running "+DateUtil.format(new Date(), DateUtil.dmy_hms));  
 //		    	ChartPngInit.pngInit02();
 //		    	System.out.println("pngInit002 running "+DateUtil.format(new Date(), DateUtil.dmy_hms));
+		    	
+		    	SqlPackageScanner scan = new SqlpathPackageScanner(SqlLoad.class.getPackage().getName());
+		    	Map<String, String> maps = null;
+				try {
+					maps = scan.getFullyQualifiedSqlNameList();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				if(maps != null){
+					SqlLoad.initSqlPro(maps);
+				}
 		    }  
 		 }, 2000);//启动2秒后开始执行,就一次
-        System.out.println("ִviewTimerJob initialized time:" + DateUtil.format(new Date(), DateUtil.dmy_hms));  
-        event.getServletContext().log("viewTimerJob is initialized");  
+//        System.out.println("ִviewTimerJob initialized time:" + DateUtil.format(new Date(), DateUtil.dmy_hms));  
+        event.getServletContext().log("viewTimerJob is initialized...");  
 	}
 
 }

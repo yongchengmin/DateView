@@ -9,7 +9,7 @@ import java.util.Map;
 import com.yc.utils.esbUtils.JsonTools;
 import com.yc.utils.files.PropertiesUtil;
 import com.yc.view.exception.BusinessException;
-import com.yc.view.utils.ChartGlobal;
+import com.yc.view.sql.SqlLoad;
 import com.yc.view.utils.ProjectUtils;
 
 public class ChartjsonInitImp implements ChartjsonInit{
@@ -18,23 +18,25 @@ public class ChartjsonInitImp implements ChartjsonInit{
 		super();
 		this.chartJdbcInit = chartJdbcInit;
 	}
+	
 	public String leftTop() {
-		String sqlPath = ProjectUtils.getPropertiesKey(ChartGlobal.LEFT_TOP);
-		if(sqlPath == null){
-			throw new BusinessException(PropertiesUtil.PROPERTIES_ACCESS_TOKEN+"未配置"+ChartGlobal.LEFT_TOP+"路径");
-		}
+//		String sqlPath = ProjectUtils.getPropertiesKey(ChartGlobal.LEFT_TOP);
+//		if(sqlPath == null){
+//			throw new BusinessException(PropertiesUtil.PROPERTIES_ACCESS_TOKEN+"未配置"+ChartGlobal.LEFT_TOP+"路径");
+//		}
+		String sqlPath = PropertiesUtil.getPropertiesKey(SqlLoad.sqlLoadPath, "xg_date_1_myc.sql");
 		String sql = null;
 		try {
 			sql = ProjectUtils.getString(ProjectUtils.getByte(sqlPath));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		try {
 			chartJdbcInit.dataNo0Execute(sql);
 		} catch (Exception e) {
 			throw new BusinessException(e.getMessage());
 		}
-		
 		
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		

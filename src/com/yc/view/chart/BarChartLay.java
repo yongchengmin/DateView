@@ -1,8 +1,6 @@
 package com.yc.view.chart;
 
 import java.awt.Color;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -16,17 +14,9 @@ import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.block.BlockBorder;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 
-import com.yc.view.exception.BusinessException;
-import com.yc.view.service.BaseManager;
-import com.yc.view.service.BaseManagerImp;
-import com.yc.view.utils.ChartGlobal;
 import com.yc.view.utils.ChartJsonUtils;
 import com.yc.view.utils.ChartUtils;
-import com.yc.view.utils.ProjectUtils;
 import com.yc.view.utils.Serie;
 /**柱状图,01.png*/
 public class BarChartLay {
