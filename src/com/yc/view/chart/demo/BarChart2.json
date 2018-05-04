@@ -1,0 +1,16 @@
+{
+	"TITLE": "装车单已完成监控",
+	"CATEGORYAXISLABEL":"",
+	"VALUEAXISLABEL":"执行(个)",
+	"CATEGORIES":[ 
+		"完成任务数"
+	],
+	"X": [
+		"10:23"
+	],
+	"Y":{
+		"完成任务数": [
+			95
+		]
+	}
+}

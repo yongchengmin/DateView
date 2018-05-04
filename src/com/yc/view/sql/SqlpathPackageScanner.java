@@ -5,11 +5,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-
 import com.yc.view.scan.StringUtil;
 import com.yc.view.utils.ChartGlobal;
 

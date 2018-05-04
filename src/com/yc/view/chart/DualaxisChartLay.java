@@ -42,6 +42,7 @@ public class DualaxisChartLay {
 			return null;
 		}
 		String json = FileUtil.readStrTxt(file, ChartGlobal.encodeing);
+		System.out.println(json);
 		JSONObject jsonObject = JSONObject.fromObject(json);
 		String title = jsonObject.getString(ChartJsonUtils.TITLE);
 		String categoryAxisLabel = jsonObject.getString(ChartJsonUtils.CATEGORYAXISLABEL);

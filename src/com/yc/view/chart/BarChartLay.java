@@ -1,10 +1,15 @@
 package com.yc.view.chart;
 
 import java.awt.Color;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URL;
 import java.util.Vector;
+
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 import net.sf.json.JSONObject;
 
@@ -14,7 +19,9 @@ import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.block.BlockBorder;
 import org.jfree.data.category.DefaultCategoryDataset;
-
+import com.yc.utils.esbUtils.FileUtil;
+import com.yc.view.chart.demo.BarChart;
+import com.yc.view.utils.ChartGlobal;
 import com.yc.view.utils.ChartJsonUtils;
 import com.yc.view.utils.ChartUtils;
 import com.yc.view.utils.Serie;
@@ -71,36 +78,6 @@ public class BarChartLay {
 	}
 	
 	public static JFreeChart createChart(String json) {
-		/*String pathname = ProjectUtils.getPropertiesKey(ChartGlobal.LEFT_TOP_JSON);
-		if(pathname == null){
-			throw new BusinessException("accessToken.properties文件未配置left_top路径");
-		}
-		FileInputStream hFile;
-		int i = 0;
-		byte[] data=null;
-		try {
-			hFile = new FileInputStream(pathname);// 以byte流的方式打开文件
-			try {
-				i = hFile.available();//得到文件大小
-			} catch (IOException e) {
-				e.printStackTrace();
-			} 
-			data=new byte[i];
-			try {
-				hFile.read(data);//读数据
-			} catch (IOException e) {
-				e.printStackTrace();
-			}  
-			try {
-				hFile.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} 
-		String json = ProjectUtils.getString(data);*/
-		
 		JSONObject jsonObject = JSONObject.fromObject(json);
 		String title = jsonObject.getString(ChartJsonUtils.TITLE);
 		String categoryAxisLabel = jsonObject.getString(ChartJsonUtils.CATEGORYAXISLABEL);
@@ -118,7 +95,6 @@ public class BarChartLay {
 		chart.getLegend().setFrame(new BlockBorder(Color.WHITE));
 		return chart;
 		
-		
 //		File file = new File(pathname);
 //		if(!file.exists()){
 //			return null;
@@ -134,28 +110,35 @@ public class BarChartLay {
 	}
 
 	public static void main(String[] args) {
-//		URL url = BarChart.class.getResource("BarChart.json");//test,从json路径下拷贝一份至demo路径下测试
-//		final String pathname = url.getPath();
-//		
-//		final JFrame frame = new JFrame();
-//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		frame.setSize(1024, 420);
-//		frame.setLocationRelativeTo(null);
-//		SwingUtilities.invokeLater(new Runnable() {
-//			@Override
-//			public void run() {
-//				// 创建图形
-//				ChartPanel chartPanel = getChartPanel(pathname);
-//				frame.getContentPane().add(chartPanel);
-//				frame.setVisible(true);
-//			}
-//		});
-		
-		try {
-			outPng("./01.json");
-		} catch (IOException e) {
-			e.printStackTrace();
+		URL url = BarChart.class.getResource("BarChart2.json");//test,从json路径下拷贝一份至demo路径下测试
+		final String pathname = url.getPath();
+		File file = new File(pathname);
+		if(!file.exists()){
+			System.out.println(pathname+"  is null");
+			return;
 		}
+		final String json = FileUtil.readStrTxt(file, ChartGlobal.encodeing);
+		System.out.println(json);
+		
+		final JFrame frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(1024, 420);
+		frame.setLocationRelativeTo(null);
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				// 创建图形
+				ChartPanel chartPanel = getChartPanel(json);
+				frame.getContentPane().add(chartPanel);
+				frame.setVisible(true);
+			}
+		});
+		
+//		try {
+//			outPng("./01.json");
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		
 //		String sizetwo = PropertiesUtil.getPropertiesKey(ChartGlobal.PORTMESG, ChartGlobal.SIZE_TWO);
 //		JFreeChart chart = new BarChartLay(sizetwo+"/01.json").getJFreeChart();

@@ -6,7 +6,7 @@ create table LEFT_TOP_HEAD
   VALUEAXISLABEL             VARCHAR2(100 CHAR) not null,
   created_time     TIMESTAMP(6) default systimestamp
 )
-tablespace XXX
+tablespace JAC_PARTS_DATA
   pctfree 10
   initrans 1
   maxtrans 255
@@ -33,7 +33,7 @@ alter table LEFT_TOP_HEAD_TEMP modify created_time default systimestamp;
   line         FLOAT not null,
   created_time     TIMESTAMP(6) default systimestamp
 )
-tablespace XXX
+tablespace JAC_PARTS_DATA
   pctfree 10
   initrans 1
   maxtrans 255

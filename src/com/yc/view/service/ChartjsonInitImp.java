@@ -24,7 +24,7 @@ public class ChartjsonInitImp implements ChartjsonInit{
 //		if(sqlPath == null){
 //			throw new BusinessException(PropertiesUtil.PROPERTIES_ACCESS_TOKEN+"未配置"+ChartGlobal.LEFT_TOP+"路径");
 //		}
-		String sqlPath = PropertiesUtil.getPropertiesKey(SqlLoad.sqlLoadPath, "xg_date_1_myc.sql");
+		String sqlPath = PropertiesUtil.getPropertiesKey(SqlLoad.sqlLoadPath, "xg_data_2_myc.sql");
 		String sql = null;
 		try {
 			sql = ProjectUtils.getString(ProjectUtils.getByte(sqlPath));
@@ -80,7 +80,7 @@ public class ChartjsonInitImp implements ChartjsonInit{
     	paramMap.put("Y", yM);
     	String json = JsonTools.getCreateJson(paramMap);
     	paramMap.clear();
-    	System.out.println(json);
+//    	System.out.println(json);
     	/**
     	 * {
 			"CATEGORYAXISLABEL":"-",
