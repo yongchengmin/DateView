@@ -9,6 +9,7 @@ import java.util.Map;
 import com.yc.utils.esbUtils.JsonTools;
 import com.yc.utils.files.PropertiesUtil;
 import com.yc.view.exception.BusinessException;
+import com.yc.view.sql.SqlContainerKey;
 import com.yc.view.sql.SqlLoad;
 import com.yc.view.utils.ProjectUtils;
 
@@ -19,12 +20,22 @@ public class ChartjsonInitImp implements ChartjsonInit{
 		this.chartJdbcInit = chartJdbcInit;
 	}
 	
+	static String keyName,sqlPath;
+	static{
+		keyName = PropertiesUtil.getPropertiesKey(SqlLoad.sqlContainerPath, SqlContainerKey.K1);
+		sqlPath = PropertiesUtil.getPropertiesKey(SqlLoad.sqlLoadPath, keyName);
+	}
 	public String leftTop() {
 //		String sqlPath = ProjectUtils.getPropertiesKey(ChartGlobal.LEFT_TOP);
 //		if(sqlPath == null){
 //			throw new BusinessException(PropertiesUtil.PROPERTIES_ACCESS_TOKEN+"未配置"+ChartGlobal.LEFT_TOP+"路径");
 //		}
-		String sqlPath = PropertiesUtil.getPropertiesKey(SqlLoad.sqlLoadPath, "xg_data_2_myc.sql");
+		if(keyName == null){
+			keyName = PropertiesUtil.getPropertiesKey(SqlLoad.sqlContainerPath, SqlContainerKey.K1);
+		}
+		if(sqlPath == null){
+			sqlPath = PropertiesUtil.getPropertiesKey(SqlLoad.sqlLoadPath, keyName);
+		}
 		String sql = null;
 		try {
 			sql = ProjectUtils.getString(ProjectUtils.getByte(sqlPath));

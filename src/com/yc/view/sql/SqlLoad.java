@@ -12,14 +12,19 @@ import com.yc.utils.files.PropertiesUtil;
 
 
 public class SqlLoad {
-	public static String sqlLoadPath = null,sqlLoadPathFile = "sqlLoadPath.properties";
+	public static String sqlLoadPath = null,sqlContainerPath = null;
+	static String sqlLoadPathFile = "sqlLoadPath.properties",sqlContainerFile = "sqlContainer.properties";
 	static {
 		setSqlLoadPath();
+		setSqlContainerPath();
 	}
 	public static void initSqlPro(Map<String,String> maps){
 		if(maps != null){
 			if(sqlLoadPath == null){
 				setSqlLoadPath();
+			}
+			if(sqlContainerPath == null){
+				setSqlContainerPath();
 			}
 			File f= new File(sqlLoadPath);
 			Iterator<Entry<String, String>> iterator = maps.entrySet().iterator();
@@ -41,6 +46,10 @@ public class SqlLoad {
 	public static void setSqlLoadPath(){
 		URL url = SqlLoad.class.getResource(sqlLoadPathFile);
 		sqlLoadPath = url.getPath();
+	}
+	public static void setSqlContainerPath(){
+		URL url = SqlLoad.class.getResource(sqlContainerFile);
+		sqlContainerPath = url.getPath();
 	}
 
 	/*static String sqlPath = null;

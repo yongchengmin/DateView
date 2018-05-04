@@ -9,6 +9,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 import java.util.Random;
 
+import org.apache.tools.ant.util.FileUtils;
+
 import com.yc.utils.files.PropertiesUtil;
 
 public class ProjectUtils {
@@ -136,6 +138,15 @@ public class ProjectUtils {
 			parentPath=/D:/jac_gitee_v002/DateView/build/classes/com/yc/view/
 	        * */
 	   }
+	
+	/**复制文件*/
+    public static void copyFile(File sourceFile, File destFile){
+    	try {
+			FileUtils.newFileUtils().copyFile(sourceFile, destFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
 	
 	public static void main(String[] args) {
 		FileInputStream hFile;

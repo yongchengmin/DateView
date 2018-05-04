@@ -40,5 +40,6 @@
 	<classpathentry kind="lib" path="WebContent/dateView/WEB-INF/lib/org.mortbay.jetty.jar"/>
 	<classpathentry kind="lib" path="WebContent/dateView/WEB-INF/lib/org.mortbay.jmx.jar"/>
 	<classpathentry kind="lib" path="WebContent/dateView/WEB-INF/lib/tomcat-juli.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/ant/jars/ant-1.6.2.jar"/>
 	<classpathentry kind="output" path="WebContent/dateView/WEB-INF/classes"/>
 </classpath>
