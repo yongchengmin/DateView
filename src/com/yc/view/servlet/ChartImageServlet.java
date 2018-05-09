@@ -20,7 +20,7 @@ import com.yc.view.service.ChartJdbcInit;
 import com.yc.view.service.ChartjsonInit;
 import com.yc.view.utils.ChartGlobal;
 import com.yc.view.utils.ProjectUtils;
-//http://localhost:8080/DateView/chartJson?parameter=left_top
+//  http://localhost:8081/dateView/chartJson?parameter=left_top
 public class ChartImageServlet extends HttpServlet{
 
 	/**
@@ -56,12 +56,14 @@ public class ChartImageServlet extends HttpServlet{
     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
-//    	System.out.println("根目录所对应的绝对路径"+request.getServletPath());
-//    	System.out.println("文件的绝对路径"+request.getSession().getServletContext().getRealPath(request.getRequestURI()));
-//    	System.out.println("内容所在路径:"+request.getContextPath());
-//    	System.out.println("绝对路径:"+request.getRequestURL());
-//    	System.out.println(this.getServletContext().getRealPath("01.json"));
-    	String json = chartjsonInit.leftTop();
+    	String jsonFile = ChartGlobal.LEFT_TOP+ChartGlobal.jsonEnd;
+    	String json = null;
+		try {
+			json = ProjectUtils.getString(ProjectUtils.getByte(jsonFile));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	
     	String name = null;
     	if(ChartGlobal.LEFT_TOP.equals(request.getParameter("parameter"))){
     		name = ChartGlobal.LEFT_TOP+ChartGlobal.imageEnd;

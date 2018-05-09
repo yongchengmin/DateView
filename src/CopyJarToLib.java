@@ -72,6 +72,12 @@ public class CopyJarToLib {
 			}
 			return libFiles;
 	   }
+	   @SuppressWarnings("unused")
+	   private static void copyProperties(String srcPath,String descPath){
+		   File sourceFile = new File(srcPath+"quartzRepeatInterval.properties");
+		   File destFile = new File(descPath+"/quartzRepeatInterval.properties");
+		   copyFile(sourceFile, destFile);
+	   }
 	   private static void zipPath(String zipPath,String srcPathName){
 		   ZipCompressor zc = new ZipCompressor(zipPath); 
 		   zc.compress(srcPathName);
@@ -97,13 +103,14 @@ public class CopyJarToLib {
 	       }
 	       System.out.println(path);// D:/jac_gitee_v002/DateView/WebContent/dateView/WEB-INF/
 	       List<File> libFiles = copyJar(path);
-		   
+	       
 		   index  = path.indexOf("WebContent");
 		   String zipPath = path.substring(0, index);// D:/jac_gitee_v002/DateView/
-		   zipPath += "dateView.zip";
-		   
 		   index  = path.indexOf("/WEB-INF");
 		   String srcPathName = path.substring(0, index);//"D:/jac_gitee_v002/DateView/WebContent/dateView";
+//		   copyProperties(zipPath,srcPathName);
+		   
+		   zipPath += "dateView.zip";
 		   zipPath(zipPath,srcPathName);
 		   
 		   clearJar(libFiles);

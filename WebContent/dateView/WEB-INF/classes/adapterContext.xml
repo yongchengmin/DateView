@@ -9,6 +9,7 @@
 		<property name="triggers">
 			<list>
 <!-- 				<ref bean="handleMailTrigger" /> -->
+				<ref bean="leftTopTrigger" />
 			</list>
 		</property>
 		<property name="quartzProperties">
@@ -25,6 +26,17 @@
 	</bean>
 	<bean id="handleMailTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
 		<property name="jobDetail" ref="handleMailJob" />
+		<property name="startDelay" value="10000" /><!-- 调度工厂实例化后，经过10秒开始执行调度 --> 
+		<property name="repeatInterval" value="2000" /><!-- 每2秒调度一次 -->
+		<property name="repeatCount" value="0" />
+	</bean>
+	
+	<bean id="leftTopJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="ediJobHelper" />
+		<property name="targetMethod" value="doLeftTopJob" />
+	</bean>
+	<bean id="leftTopTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail" ref="leftTopJob" />
 		<property name="startDelay" value="10000" /><!-- 调度工厂实例化后，经过10秒开始执行调度 --> 
 		<property name="repeatInterval" value="2000" /><!-- 每2秒调度一次 -->
 		<property name="repeatCount" value="0" />

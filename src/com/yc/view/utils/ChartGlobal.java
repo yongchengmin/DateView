@@ -5,6 +5,7 @@ public interface ChartGlobal {
 	public static String imageEnd = ".jpeg";
 	public static String htmlEnd = ".html";
 	public static String sqlEnd = ".sql";
+	public static String jsonEnd = ".json";
 	
 	static final String PORTMESG = "globalMesg.properties";//配置信息
 	//左上角展示图片数据文件

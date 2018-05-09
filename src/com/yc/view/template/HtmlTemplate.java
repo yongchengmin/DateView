@@ -4,16 +4,15 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.util.Date;
 
 import com.yc.view.utils.ChartGlobal;
 import com.yc.view.utils.DateUtil;
+import com.yc.view.utils.ProjectUtils;
 
 public class HtmlTemplate {
 	static String pathtemplate = null,pathhtml = null;
@@ -38,7 +37,7 @@ public class HtmlTemplate {
 //		String redirtHtml = "index"+DateUtil.format(new Date(), DateUtil.hhmmssSSS)+ChartGlobal.htmlEnd;
 		String redirtHtml = "redirtHtml"+ChartGlobal.htmlEnd;
 		replacetr=replacetr.replace("{redirtHtml}",redirtHtml);//动态
-		createTxt(pathhtml, replacetr.trim(), ChartGlobal.encodeing);
+		ProjectUtils.createTxt(pathhtml, replacetr.trim(), ChartGlobal.encodeing);
 	}
 	
 	public String readByte(String pathName){
@@ -72,22 +71,6 @@ public class HtmlTemplate {
 		return sf.toString();
   	}
     
-    public void createTxt(String file,String row,String character){
-    	OutputStreamWriter osw = null;
-    	try {
-    		osw = new OutputStreamWriter(new FileOutputStream(file,false),character);
-    		osw.write(row);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally{
-	       	 if(osw!=null)//if(osw!=null)
-	             try {
-	             	osw.close();//osw.close();
-	             } catch (IOException e) {
-	                 e.printStackTrace();
-	             }
-	    }
-    }
     
     public static void main(String[] args) throws IOException {
 		new HtmlTemplate("000001.png");
