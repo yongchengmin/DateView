@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.jfree.chart.ChartUtilities;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -20,7 +21,9 @@ import com.yc.view.service.ChartJdbcInit;
 import com.yc.view.service.ChartjsonInit;
 import com.yc.view.utils.ChartGlobal;
 import com.yc.view.utils.ProjectUtils;
-//  http://localhost:8081/dateView/chartJson?parameter=left_top
+// http://localhost:8081/dateView/chartJson?parameter=left_top
+// 本地调试URL
+// http://localhost:8081/dateView/chartJson?parameter=left_top&path=D:\json\left_top_normal.json
 public class ChartImageServlet extends HttpServlet{
 
 	/**
@@ -56,20 +59,24 @@ public class ChartImageServlet extends HttpServlet{
     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
-    	String jsonFile = ChartGlobal.LEFT_TOP+ChartGlobal.jsonEnd;
-    	String json = null;
-		try {
-			json = ProjectUtils.getString(ProjectUtils.getByte(jsonFile));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-    	
-    	String name = null;
+    	String jsonFile = null,json = null,name = null;
     	if(ChartGlobal.LEFT_TOP.equals(request.getParameter("parameter"))){
+    		jsonFile = ChartGlobal.LEFT_TOP+ChartGlobal.jsonEnd;
+    	}else if(ChartGlobal.LEFT_TOP_DEMO.equals(request.getParameter("parameter"))){
+    		jsonFile = ChartGlobal.LEFT_TOP_DEMO+ChartGlobal.jsonEnd;
+    		
+    	}
+    	if(!StringUtils.isEmpty(jsonFile)){
+    		try {
+    			json = ProjectUtils.getString(ProjectUtils.getByte(jsonFile));
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    		}
     		name = ChartGlobal.LEFT_TOP+ChartGlobal.imageEnd;
     		outBarChartLayJpeg(json,name);
     		returnRequest(response,name);
-    	}else{
+    	}
+    	else{
     		returnErrorRequest(response,"parameter is not avaliable!");
     	}
     	

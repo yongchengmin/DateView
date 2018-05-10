@@ -41,26 +41,26 @@ public class EdiJobHelper extends AbstractEdiJobHelper{
 		logger.info("EdiJobHelper[doLeftTopJob] started....................");
 		chartjsonInit = (ChartjsonInit) applicationContext.getBean(ChartjsonInit.BEAN);
 		URL url = this.getClass().getResource(repeatIntervalFile);
-		int time = 20;
+		int time = 0,globalTime = 20;
 		String tt = PropertiesUtil.getPropertiesKey(url.getPath(), "doLeftTopJob");
 		if(StringUtils.isEmpty(tt)){
-			time = 20;
+			time = globalTime;
 		}else{
 			if(ProjectUtils.isNumeric1(tt)){
 				time = Integer.valueOf(tt);
 			}else{
-				time = 20;
+				time = globalTime;
 			}
 		}
-		while (true) {
-			System.out.println("doLeftTopJob..."+DateUtil.format(new Date(), DateUtil.dmy_hms));
+//		String jsonFile = "leftTop_"+DateUtil.format(new Date(), DateUtil.yyMMddHHmmssSSS)+".json";
+		int num = 1000*time;
+		Boolean beTrue = num >= 1000;
+		while (beTrue) {
 			String json = chartjsonInit.leftTop();
-//			String jsonFile = "leftTop_"+DateUtil.format(new Date(), DateUtil.yyMMddHHmmssSSS)+".json";
 			String jsonFile = ChartGlobal.LEFT_TOP+ChartGlobal.jsonEnd;
 			ProjectUtils.createTxt(jsonFile,json.trim(), ChartGlobal.encodeing);
 			try {
-				int num = 1000*time;
-				System.out.println("EdiJobHelper[doLeftTopJob] sleep -------"+time+"s");
+				System.out.println("doLeftTopJob..."+DateUtil.format(new Date(), DateUtil.dmy_hms)+" -- "+time+"s");
 				Thread.sleep(num);
 			} catch (InterruptedException e) {
 				logger.error("", e);
@@ -70,5 +70,6 @@ public class EdiJobHelper extends AbstractEdiJobHelper{
 				break;
 			}
 		}
+		logger.info("EdiJobHelper[doLeftTopJob] over....................");
 	}
 }

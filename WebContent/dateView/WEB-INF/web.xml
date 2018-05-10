@@ -61,6 +61,15 @@
     <servlet-class>com.yc.view.servlet.ChartImageServlet</servlet-class>
   </servlet>
   
+    <!-- 上传文件 -->
+  <servlet>
+	  <servlet-name>Upload</servlet-name>
+	  <servlet-class>com.yc.view.servlet.UploadServerlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+	  <servlet-name>Upload</servlet-name>
+	  <url-pattern>/upload</url-pattern>
+  </servlet-mapping>
   
   <servlet-mapping>
     <servlet-name>ChartImageServlet</servlet-name>
