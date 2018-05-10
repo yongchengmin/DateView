@@ -37,7 +37,7 @@ public class PictrueProess{
 		}
 	}
 	public void createJpegImage(String imageName){
-		BufferedImage buf = new BufferedImage(1024,720,BufferedImage.TYPE_INT_BGR);
+		BufferedImage buf = new BufferedImage(1024,420,BufferedImage.TYPE_INT_BGR);
 		Graphics2D g2 = buf.createGraphics();
 		g2.setPaint(Color.white);  //设好背景色
 		g2.setPaint(Color.red);
