@@ -22,8 +22,8 @@ padding:0;}
 .container{
         display: flex;
         flex-flow:column nowrap;
-		width:100%; height:100%; overflow:hidden; margin:0;
-		padding:0;
+		width:100%; height:100%; overflow:hidden; margin:5;
+		padding:5;
         background:#ccc;
 
     }
@@ -38,7 +38,12 @@ padding:0;}
         flex:1 1 0;/*元素弹性*/
         background: green;
     }
-    .item img{width:100%;height:100%;}
+    .item img{  
+	    width: auto;  
+	    height: auto;  
+	    max-width: 100%;  
+	    max-height: 100%;     
+	}
     .parent .item:first-child{margin-right: 10px;}
 
 </style>
@@ -51,7 +56,6 @@ padding:0;}
         <div class="item">
         	<img src="http://localhost:8081/dateView/chartJson?parameter=left_top_demo">
         </div>
-        <div class="item"></div>
     </div>
 </div>
 </body>

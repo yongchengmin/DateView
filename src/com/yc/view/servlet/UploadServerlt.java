@@ -49,7 +49,7 @@ public class UploadServerlt extends HttpServlet {
 							fos.close();
 							//清除应用服务器下的临时文件
 							fileItem.delete();
-							dispatcher = "/left_top_demo.jsp";
+							dispatcher = "/left_top_up.jsp";
 							break;
 						}
 					}

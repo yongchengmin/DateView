@@ -20,10 +20,11 @@ import com.yc.view.chart.BarChartLay;
 import com.yc.view.service.ChartJdbcInit;
 import com.yc.view.service.ChartjsonInit;
 import com.yc.view.utils.ChartGlobal;
+import com.yc.view.utils.PictrueProess;
 import com.yc.view.utils.ProjectUtils;
 // http://localhost:8081/dateView/chartJson?parameter=left_top
 // 本地调试URL
-// http://localhost:8081/dateView/chartJson?parameter=left_top&path=D:\json\left_top_normal.json
+// http://localhost:8081/dateView/left_top_up.jsp
 public class ChartImageServlet extends HttpServlet{
 
 	/**
@@ -62,9 +63,10 @@ public class ChartImageServlet extends HttpServlet{
     	String jsonFile = null,json = null,name = null;
     	if(ChartGlobal.LEFT_TOP.equals(request.getParameter("parameter"))){
     		jsonFile = ChartGlobal.LEFT_TOP+ChartGlobal.jsonEnd;
+    		name = ChartGlobal.LEFT_TOP+ChartGlobal.imageEnd;
     	}else if(ChartGlobal.LEFT_TOP_DEMO.equals(request.getParameter("parameter"))){
     		jsonFile = ChartGlobal.LEFT_TOP_DEMO+ChartGlobal.jsonEnd;
-    		
+    		name = ChartGlobal.LEFT_TOP_DEMO+ChartGlobal.imageEnd;
     	}
     	if(!StringUtils.isEmpty(jsonFile)){
     		try {
@@ -72,8 +74,7 @@ public class ChartImageServlet extends HttpServlet{
     		} catch (IOException e) {
     			e.printStackTrace();
     		}
-    		name = ChartGlobal.LEFT_TOP+ChartGlobal.imageEnd;
-    		outBarChartLayJpeg(json,name);
+    		outBarChartLayJpeg(response,json,name);
     		returnRequest(response,name);
     	}
     	else{
@@ -82,12 +83,23 @@ public class ChartImageServlet extends HttpServlet{
     	
     }
     
-    protected void outBarChartLayJpeg(String json,String name) throws IOException{
+    protected void outBarChartLayJpeg(HttpServletResponse response,String json,String name) throws IOException{
     	//图片是文件格式的,故要用到FileOutputStream用来输出.
     	 OutputStream os = new FileOutputStream(name);
     	//使用一个面向application的工具类,将chart转换成JPEG格式的图片.第3个参数是宽度,第4个参数是高度.
-         ChartUtilities.writeChartAsJPEG(os, new BarChartLay(json).getJFreeChart(), 1024, 420);
-         os.close();//关闭输出流
+    	 Boolean beError = false;
+    	 try {
+    		 ChartUtilities.writeChartAsJPEG(os, new BarChartLay(json).getJFreeChart(), 1024, 420);
+    	 } catch (Exception e) {
+			beError = true;
+			System.out.println(e.getMessage());
+    	 }finally{
+			os.close();//关闭输出流
+			if(beError){
+				PictrueProess p1 = new PictrueProess();
+				p1.createJpegImage(name);
+			}
+		}
     }
     
     protected void returnRequest(HttpServletResponse response,String name) throws IOException {
