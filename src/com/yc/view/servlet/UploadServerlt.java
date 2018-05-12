@@ -30,7 +30,7 @@ public class UploadServerlt extends HttpServlet {
 				//设置上传的总文件的大小40M
 				upload.setFileSizeMax(40*1024*1024);
 				List<FileItem> fileItemList = upload.parseRequest(request);
-				String dispatcher = "/index.jsp";
+				String dispatcher = "/left_top_up.jsp";
 				//如果表单内容不为空
 				if (fileItemList != null) {
 					//遍历内容

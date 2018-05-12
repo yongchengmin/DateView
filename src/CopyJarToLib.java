@@ -78,9 +78,9 @@ public class CopyJarToLib {
 		   File destFile = new File(descPath+"/quartzRepeatInterval.properties");
 		   copyFile(sourceFile, destFile);
 	   }
-	   private static void zipPath(String zipPath,String srcPathName){
+	   private static void zipPath(String zipRootPath,String zipPath,String srcPathName){
 		   ZipCompressor zc = new ZipCompressor(zipPath); 
-		   zc.compress(srcPathName);
+		   zc.compress(zipRootPath,srcPathName);
 	   }
 	   @SuppressWarnings("deprecation")
 	public static void initJar(){
@@ -110,8 +110,7 @@ public class CopyJarToLib {
 		   String srcPathName = path.substring(0, index);//"D:/jac_gitee_v002/DateView/WebContent/dateView";
 //		   copyProperties(zipPath,srcPathName);
 		   
-		   zipPath += "dateView.zip";
-		   zipPath(zipPath,srcPathName);
+		   zipPath(zipPath,zipPath += "dateView.zip",srcPathName);
 		   
 		   clearJar(libFiles);
 	   }
