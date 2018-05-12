@@ -12,6 +12,8 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+
+import com.yc.view.utils.ChartGlobal;
 @SuppressWarnings("serial")
 public class UploadServerlt extends HttpServlet {
 
@@ -37,6 +39,11 @@ public class UploadServerlt extends HttpServlet {
 					for (FileItem fileItem: fileItemList) {
 						//如果是文件:<input type="file" name="left_top_demo">
 						if (fileItem.getFieldName().equalsIgnoreCase("left_top_demo")) {
+							//name=left_top_error.json
+							if(!fileItem.getName().endsWith(ChartGlobal.jsonEnd)){
+								request.setAttribute("errorKey", "文件不是.json结尾");
+								break;
+							}
 							InputStream in = fileItem.getInputStream();
 							//写入指定目录下
 							FileOutputStream fos = new FileOutputStream("left_top_demo.json");

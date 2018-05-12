@@ -2,6 +2,7 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+String errorKey =(String)(request.getAttribute( "errorKey")==null?"":request.getAttribute( "errorKey"));
 %>
 <%
 response.setHeader("Cache-Control","no-store");
@@ -40,11 +41,13 @@ response.setDateHeader ("Expires", 0);
 	    max-width: 100%;  
 	    max-height: 100%;     
 	}
-
+	.boxes{font-size:14px; color:#F00;vertical-align:left;}
 </style>
   </head>
   <body>
     <form action="${pageContext.request.contextPath}/upload" method="post" enctype="multipart/form-data">
+    <textarea rows="3" cols="20" class="boxes" readonly="readonly"><%=errorKey%></textarea>
+    &nbsp;&nbsp;
 	<input type="file" name="left_top_demo">
     <input type="submit" value="确认上传">
     </form>
