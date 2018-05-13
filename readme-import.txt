@@ -1,12 +1,14 @@
-发布前一定要仔细阅读我哦
+﻿dataMonitoring.html--地址和端口替换为实际发布服务器
+更新频频默认20s
 
-发布前:
-1-view.html:<img src="http://localhost:8080/...">IP和端口号改为实际发布地址和端口号
-2-index.html:window.location = "http://localhost:8081/..."IP和端口号改为实际发布地址和端口号
+先登录以下地址验证 IP和端口以实际发布为准
+http://192.168.10.92:8085/dateView/chartJson?parameter=left_top
 
-开发时:
+left_top_up.jsp--地址和端口替换为实际发布服务器
+http://192.168.10.92:8085/dateView/chartJson?parameter=left_top_demo
 
-其他说明:
-1-登陆
----10s刷新一次
-http://localhost:8081/dateView
+注意事项:修改下面文件之前,建议先启动一次,让项目先加载sql的路径
+防止job提示找不到文件
+WEB-INF\classes\com\yc\view\job\quartzRepeatInterval.properties
+定时任务调度频率 30(s)
+
