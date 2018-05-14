@@ -17,6 +17,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.yc.view.chart.BarChartLay;
+import com.yc.view.chart.demo.DefaultDemo;
 import com.yc.view.service.ChartJdbcInit;
 import com.yc.view.service.ChartjsonInit;
 import com.yc.view.utils.ChartGlobal;
@@ -59,14 +60,18 @@ public class ChartImageServlet extends HttpServlet{
     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	String parameter = request.getParameter("parameter");
     	
     	String jsonFile = null,json = null,name = null;
-    	if(ChartGlobal.LEFT_TOP.equals(request.getParameter("parameter"))){
+    	if(ChartGlobal.LEFT_TOP.equals(parameter)){
     		jsonFile = ChartGlobal.LEFT_TOP+ChartGlobal.jsonEnd;
     		name = ChartGlobal.LEFT_TOP+ChartGlobal.imageEnd;
-    	}else if(ChartGlobal.LEFT_TOP_DEMO.equals(request.getParameter("parameter"))){
+    	} else if(ChartGlobal.LEFT_TOP_DEMO.equals(parameter)){
     		jsonFile = ChartGlobal.LEFT_TOP_DEMO+ChartGlobal.jsonEnd;
     		name = ChartGlobal.LEFT_TOP_DEMO+ChartGlobal.imageEnd;
+    	} else if(ChartGlobal.DEFAULT_DEMO.equals(parameter)){
+    		jsonFile = DefaultDemo.defaultDemoPath;
+    		name = ChartGlobal.DEFAULT_DEMO+ChartGlobal.imageEnd;
     	}
     	if(!StringUtils.isEmpty(jsonFile)){
     		try {

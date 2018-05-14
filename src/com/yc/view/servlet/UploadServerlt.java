@@ -35,15 +35,33 @@ public class UploadServerlt extends HttpServlet {
 				String dispatcher = "/left_top_up.jsp";
 				//如果表单内容不为空
 				if (fileItemList != null) {
+					String errorKey = "errorKey",errorMess = "";
+					String demoKey = "demoKey";
 					//遍历内容
 					for (FileItem fileItem: fileItemList) {
 						//如果是文件:<input type="file" name="left_top_demo">
 						if (fileItem.getFieldName().equalsIgnoreCase("left_top_demo")) {
 							//name=left_top_error.json
 							if(!fileItem.getName().endsWith(ChartGlobal.jsonEnd)){
-								request.setAttribute("errorKey", "文件不是.json结尾");
+								errorMess = "file not end with .json";
+								request.setAttribute(errorKey,errorMess);
 								break;
 							}
+							//The file must be start with 'left_top_','right_top_','left_bottom_','right_bottom_'.
+							if(fileItem.getName().startsWith("left_top_")){
+								errorMess = "left_top_demo";
+							} else if(fileItem.getName().startsWith("right_top_")){
+								errorMess = "right_top_demo";
+							} else if(fileItem.getName().startsWith("left_bottom_")){
+								errorMess = "left_bottom_demo";
+							} else if(fileItem.getName().startsWith("right_bottom_")){
+								errorMess = "right_bottom_demo";
+							} else {
+								errorMess = "must be start with left_top_/right_top_/left_bottom_/right_bottom_";
+								request.setAttribute(errorKey,errorMess);
+								break;
+							}
+							request.setAttribute(demoKey, errorMess);
 							InputStream in = fileItem.getInputStream();
 							//写入指定目录下
 							FileOutputStream fos = new FileOutputStream("left_top_demo.json");

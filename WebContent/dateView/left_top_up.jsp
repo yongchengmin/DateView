@@ -2,7 +2,9 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-String errorKey =(String)(request.getAttribute( "errorKey")==null?"":request.getAttribute( "errorKey"));
+String errorKey =(String)(request.getAttribute("errorKey")==null?"":request.getAttribute("errorKey"));
+String demoKey =(String)(request.getAttribute("demoKey")==null?"default_demo":request.getAttribute("demoKey"));
+String imageUrl = "http://localhost:8081/dateView/chartJson?parameter="+demoKey;
 %>
 <%
 response.setHeader("Cache-Control","no-store");
@@ -30,7 +32,7 @@ body{ background:#BBFFEE; height:100%;}
 .bottom{height:70px; left:5px; right:5px; bottom:10px;}
 
 .item{
-        flex:1 1 0;/*元素弹性*/
+        flex:1 1 0;
     }
     .item img{  
 	    width: auto;  
@@ -40,13 +42,10 @@ body{ background:#BBFFEE; height:100%;}
 	}
 	
  table {
- 	/*设置相邻单元格的边框间的距离*/
  	border-spacing: 0;
- 	/*表格设置合并边框模型*/
  	border-collapse: collapse;
  	text-align: center;
  }
- /*关键设置 tbody出现滚动条*/
  table tbody {
  	display: block;
  	height:300px;
@@ -58,19 +57,36 @@ body{ background:#BBFFEE; height:100%;}
  	width: 100%;
  	table-layout: fixed;
  }
- /*关键设置：滚动条默认宽度是16px 将thead的宽度减16px*/
+ tbody tr td ul li {
+	list-style:none;
+	text-align:left;
+ }
  table thead {
  	width: calc( 100% - 1em)
  }
  table thead th {
  	background: #ddd;
  }
+ #pre{  
+	white-space: pre-wrap;       /* css-3 */  
+	white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */  
+	white-space: -pre-wrap;      /* Opera 4-6 */  
+	white-space: -o-pre-wrap;    /* Opera 7 */  
+	word-wrap: break-word;       /* Internet Explorer 5.5+ */  
+	word-break:break-all;  
+	overflow:scroll;
+	overflow-x:hidden;
+	color: #F00;  
+	font-size: 14px;  
+	font-family: "微软雅黑"; 
+	resize:none;	
+  }
 </style> 
   </head>
   <body>
   	<div class="top">
 		<form action="${pageContext.request.contextPath}/upload" method="post" enctype="multipart/form-data">
-			<textarea rows="3" cols="20" class="boxes" readonly="readonly"></textarea>
+			<textarea rows="3" cols="20" class="boxes" readonly="readonly" id="pre"><%=errorKey%></textarea>
 		    &nbsp;&nbsp;
 			<input type="file" name="left_top_demo">
 		    <input type="submit" value="确认上传">
@@ -81,47 +97,29 @@ body{ background:#BBFFEE; height:100%;}
 		<table width="100%">
 			<thead>
 				<tr>
-					<th>代 码 列 表</th>
+					<th>模 板 列 表</th>
 				</tr>
 			</thead>    
 	        <tbody>
-				<tr><td>代码01</td></tr>
-				<tr><td>代码02</td></tr>
-				<tr><td>代码03</td></tr>
-				<tr><td>代码04</td></tr>
-				<tr><td>代码05</td></tr>
-				<tr><td>代码06</td></tr>
-				<tr><td>代码07</td></tr>
-				<tr><td>代码08</td></tr>
-				<tr><td>代码09</td></tr>
-				<tr><td>代码10</td></tr>
-				<tr><td>代码11</td></tr>
-				<tr><td>代码12</td></tr>
-				<tr><td>代码13</td></tr>
-				<tr><td>代码14</td></tr>
-				<tr><td>代码15</td></tr>
-				<tr><td>代码16</td></tr>
-				<tr><td>代码17</td></tr>
-				<tr><td>代码18</td></tr>
-				<tr><td>代码19</td></tr>
-				<tr><td>代码20</td></tr>
-				<tr><td>代码21</td></tr>
-				<tr><td>代码22</td></tr>
-				<tr><td>代码23</td></tr>
-				<tr><td>代码24</td></tr>
-				<tr><td>代码25</td></tr>
-				<tr><td>代码26</td></tr>
-				<tr><td>代码27</td></tr>
-				<tr><td>代码28</td></tr>
-				<tr><td>代码29</td></tr>
-				<tr><td>代码30</td></tr>
+				<tr><td><ul><li>
+					<a href="books/left_top_01.json" target="_blank">left_top_模板1 / </a>
+					<a href="books/left_top_01.png" target="_blank">预览</a>
+				</li></ul></td></tr>
+				<tr><td><ul><li>
+					<a href="books/left_top_02.json" target="_blank">left_top_模板2 / </a>
+					<a href="books/left_top_02.png" target="_blank">预览</a>
+				</li></ul></td></tr>
+				<tr><td><ul><li>
+					<a href="books/left_top_03.json" target="_blank">left_top_模板3 / </a>
+					<a href="books/left_top_03.png" target="_blank">预览</a>
+				</li></ul></td></tr>
 			</tbody>
 		  </table>
 	</div>
 	
 	<div class="right">
 		<div class="item">
-        	<img src="http://localhost:8081/dateView/chartJson?parameter=left_top_demo">
+        	<img src=<%=imageUrl%>>
         </div>
 	</div>
 	
