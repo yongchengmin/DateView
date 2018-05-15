@@ -35,14 +35,7 @@ import com.yc.view.utils.ChartUtils;
 import com.yc.view.utils.Serie;
 
 public class DualaxisChartLay {
-	public static JFreeChart createChart(String pathname) {
-		/*******获取json数据部分***********************/
-		File file = new File(pathname);
-		if(!file.exists()){
-			return null;
-		}
-		String json = FileUtil.readStrTxt(file, ChartGlobal.encodeing);
-		System.out.println(json);
+	public static JFreeChart createChart(String json) {
 		JSONObject jsonObject = JSONObject.fromObject(json);
 		String title = jsonObject.getString(ChartJsonUtils.TITLE);
 		String categoryAxisLabel = jsonObject.getString(ChartJsonUtils.CATEGORYAXISLABEL);
@@ -96,6 +89,9 @@ public class DualaxisChartLay {
 		i = 0;
 		for(String value : yt){
 			if (ChartUtils.isNumber(value)) {
+				if("0".equals(value) || "0.0".equals(value)){
+					continue;
+				}
 				doe[i] = Double.parseDouble(value);
 			}else{
 //				doe[i] = 0D;
@@ -134,17 +130,31 @@ public class DualaxisChartLay {
 		chart.getLegend().setPosition(RectangleEdge.TOP);//标注在顶部
 		chart.getLegend().setFrame(new BlockBorder(Color.WHITE));
 		return chart;
+		/***
+		File file = new File(pathname);
+		if(!file.exists()){
+			return null;
+		}
+		String json = FileUtil.readStrTxt(file, ChartGlobal.encodeing);
+		 */
 	}
 	
-	public static ChartPanel getChartPanel(String pathname){
+	public static ChartPanel getChartPanel(String json){
 		// 6:使用chartPanel接收
-		ChartPanel chartPanel = new ChartPanel(createChart(pathname));
+		ChartPanel chartPanel = new ChartPanel(createChart(json));
 		return chartPanel;
 	}
 
 	public static void main(String[] args) {
 		URL url = DualaxisChart.class.getResource("DualaxisChart.json");//test,从json路径下拷贝一份至demo路径下测试
 		final String pathname = url.getPath();
+		File file = new File(pathname);
+		if(!file.exists()){
+			System.out.println(pathname+"  is null");
+			return;
+		}
+		final String json = FileUtil.readStrTxt(file, ChartGlobal.encodeing);
+		System.out.println(json);
 		
 		final JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -154,7 +164,7 @@ public class DualaxisChartLay {
 			@Override
 			public void run() {
 				// 创建图形
-				ChartPanel chartPanel = getChartPanel(pathname);
+				ChartPanel chartPanel = getChartPanel(json);
 				frame.getContentPane().add(chartPanel);
 				frame.setVisible(true);
 			}
@@ -174,16 +184,16 @@ public class DualaxisChartLay {
     	return chart;
     }
 	ChartPanel frame1;
-    public DualaxisChartLay(String pathname){
-    	chart = createChart(pathname);
+    public DualaxisChartLay(String json){
+    	chart = createChart(json);
     	frame1=new ChartPanel(chart,true);
     }
 	
-    public static void outPng(String pathname) throws IOException{
+    public static void outPng(String json) throws IOException{
     	//图片是文件格式的,故要用到FileOutputStream用来输出.
     	 OutputStream os = new FileOutputStream("02.jpeg");
     	//使用一个面向application的工具类,将chart转换成JPEG格式的图片.第3个参数是宽度,第4个参数是高度.
-         ChartUtilities.writeChartAsJPEG(os, new DualaxisChartLay(pathname).getJFreeChart(), 1024, 420);
+         ChartUtilities.writeChartAsJPEG(os, new DualaxisChartLay(json).getJFreeChart(), 1024, 420);
          os.close();//关闭输出流
     }
 }

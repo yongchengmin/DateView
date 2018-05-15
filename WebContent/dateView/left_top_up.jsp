@@ -101,19 +101,31 @@ body{ background:#BBFFEE; height:100%;}
 				</tr>
 			</thead>    
 	        <tbody>
-				<tr><td><ul><li>
-					<a href="books/left_top_01.json" target="_blank">left_top_模板1 / </a>
-					<a href="books/left_top_01.png" target="_blank">预览</a>
-				</li></ul></td></tr>
-				<tr><td><ul><li>
-					<a href="books/left_top_02.json" target="_blank">left_top_模板2 / </a>
-					<a href="books/left_top_02.png" target="_blank">预览</a>
-				</li></ul></td></tr>
-				<tr><td><ul><li>
-					<a href="books/left_top_03.json" target="_blank">left_top_模板3 / </a>
-					<a href="books/left_top_03.png" target="_blank">预览</a>
-				</li></ul></td></tr>
-			</tbody>
+			<tr><td><ul><li>
+				<a href="books/left_top_01.json" target="_blank">left_top_模板1 / </a>
+				<a href="books/left_top_01.png" target="_blank">预览</a>
+			</li></ul></td></tr>
+			<tr><td><ul><li>
+				<a href="books/left_top_02.json" target="_blank">left_top_模板2 / </a>
+				<a href="books/left_top_02.png" target="_blank">预览</a>
+			</li></ul></td></tr>
+			<tr><td><ul><li>
+				<a href="books/left_top_03.json" target="_blank">left_top_模板3 / </a>
+				<a href="books/left_top_03.png" target="_blank">预览</a>
+			</li></ul></td></tr>
+			<tr><td><ul><li>
+				<a href="books/left_bottom.json" target="_blank">left_bottom_模板 / </a>
+				<a href="books/left_bottom.jpeg" target="_blank">预览</a>
+			</li></ul></td></tr>
+			<tr><td><ul><li>
+				<a href="books/right_top.json" target="_blank">right_top_模板 / </a>
+				<a href="books/right_top.jpeg" target="_blank">预览</a>
+			</li></ul></td></tr>
+			<tr><td><ul><li>
+				<a href="books/right_bottom.json" target="_blank">right_bottom_模板 / </a>
+				<a href="books/right_bottom.jpeg" target="_blank">预览</a>
+			</li></ul></td></tr>
+		</tbody>
 		  </table>
 	</div>
 	

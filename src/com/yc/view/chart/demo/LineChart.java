@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Vector;
 
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartUtilities;
@@ -13,8 +16,6 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.block.BlockBorder;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import com.yc.utils.files.PropertiesUtil;
-import com.yc.view.utils.ChartGlobal;
 import com.yc.view.utils.ChartUtils;
 import com.yc.view.utils.Serie;
 
@@ -69,7 +70,7 @@ public class LineChart {
 	}
 	
 	public static void main(String[] args) {
-		/*final JFrame frame = new JFrame();
+		final JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(1024, 420);
 		frame.setLocationRelativeTo(null);
@@ -81,7 +82,7 @@ public class LineChart {
 				frame.getContentPane().add(chartPanel);
 				frame.setVisible(true);
 			}
-		});*/
+		});
 		
 		/*try {
 			outPng();
@@ -89,8 +90,8 @@ public class LineChart {
 			e.printStackTrace();
 		}*/
 		
-		String sizetwo = PropertiesUtil.getPropertiesKey(ChartGlobal.PORTMESG, ChartGlobal.SIZE_TWO);
-		ChartUtils.saveAsFile(new LineChart().getJFreeChart(), sizetwo+"/03.png", 1024, 420);
+//		String sizetwo = PropertiesUtil.getPropertiesKey(ChartGlobal.PORTMESG, ChartGlobal.SIZE_TWO);
+//		ChartUtils.saveAsFile(new LineChart().getJFreeChart(), sizetwo+"/03.png", 1024, 420);
 	}
 
 	static JFreeChart chart;

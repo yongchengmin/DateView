@@ -1,0 +1,25 @@
+{
+	"TITLE":"标题(可为空)",
+	"CATEGORIES":[
+		"data1",
+		"data2",
+		"data3",
+		"data4",
+		"data5",
+		"data6",
+		"data7",
+		"data8",
+		"data9"
+	],
+	"Y":{
+		"data1":8,
+		"data2":3,
+		"data3":1,
+		"data4":6,
+		"data5":8,
+		"data6":4,
+		"data7":4,
+		"data8":1,
+		"data9":1
+	}
+}
