@@ -80,9 +80,24 @@ public class ChartImageServlet extends HttpServlet{
     			jsonFile = getBarChartLayPath();
     		}
     		name = ChartGlobal.LEFT_TOP+ChartGlobal.imageEnd;
-    	} else if(ChartGlobal.LEFT_TOP_DEMO.equals(parameter)){//开发时根据实际传文件类型显示
-    		jsonFile = ChartGlobal.LEFT_TOP_DEMO+ChartGlobal.jsonEnd;
-    		name = ChartGlobal.LEFT_TOP_DEMO+ChartGlobal.imageEnd;
+    	} else if(parameter.startsWith(ChartGlobal.UP_DEMO)){//开发时根据实际传文件类型显示
+    		parameter = parameter.substring(ChartGlobal.UP_DEMO.length());
+    		if(parameter.equals(ChartGlobal.LEFT_TOP_DEMO)){
+    			jsonFile = ChartGlobal.LEFT_TOP_DEMO+ChartGlobal.jsonEnd;
+        		name = ChartGlobal.LEFT_TOP_DEMO+ChartGlobal.imageEnd;
+    		} else if(parameter.equals(ChartGlobal.RIGHT_TOP_DEMO)){
+    			jsonFile = ChartGlobal.RIGHT_TOP_DEMO+ChartGlobal.jsonEnd;
+        		name = ChartGlobal.RIGHT_TOP_DEMO+ChartGlobal.imageEnd;
+    		} else if(parameter.equals(ChartGlobal.LEFT_BOTTOM_DEMO)){
+    			jsonFile = ChartGlobal.LEFT_BOTTOM_DEMO+ChartGlobal.jsonEnd;
+        		name = ChartGlobal.LEFT_BOTTOM_DEMO+ChartGlobal.imageEnd;
+    		} else if(parameter.equals(ChartGlobal.RIGHT_BOTTOM_DEMO)){
+    			jsonFile = ChartGlobal.RIGHT_BOTTOM_DEMO+ChartGlobal.jsonEnd;
+        		name = ChartGlobal.RIGHT_BOTTOM_DEMO+ChartGlobal.imageEnd;
+			} else {
+				jsonFile = DefaultDemo.defaultDemoPath;
+	    		name = ChartGlobal.DEFAULT_DEMO+ChartGlobal.imageEnd;
+			}
     	} else if(ChartGlobal.DEFAULT_DEMO.equals(parameter)){//开发菜单初始化显示
     		jsonFile = DefaultDemo.defaultDemoPath;
     		name = ChartGlobal.DEFAULT_DEMO+ChartGlobal.imageEnd;
@@ -115,9 +130,10 @@ public class ChartImageServlet extends HttpServlet{
     		try {
     			json = ProjectUtils.getString(ProjectUtils.getByte(jsonFile));
     		} catch (IOException e) {
-    			e.printStackTrace();
+    			json = null;
     		}
-    		if(ChartGlobal.RIGHT_TOP.equals(parameter)){
+    		if(ChartGlobal.RIGHT_TOP.equals(parameter)
+    				|| ChartGlobal.RIGHT_TOP_DEMO.equals(parameter)){
     			if(StringUtils.isEmpty(json)){
     				jsonFile = getLineChartLayPath();
         			try {
@@ -127,7 +143,8 @@ public class ChartImageServlet extends HttpServlet{
             		}
         		}
     			outLineChartLayJpeg(response, json, name);
-    		} else if(ChartGlobal.LEFT_BOTTOM.equals(parameter)){
+    		} else if(ChartGlobal.LEFT_BOTTOM.equals(parameter)
+    				|| ChartGlobal.LEFT_BOTTOM_DEMO.equals(parameter)){
     			if(StringUtils.isEmpty(json)){
     				jsonFile = getDualaxisChartPath();
         			try {
@@ -137,7 +154,8 @@ public class ChartImageServlet extends HttpServlet{
             		}
         		}
     			outDualaxisChartLayJpeg(response, json, name);
-    		} else if(ChartGlobal.RIGHT_BOTTOM.equals(parameter)){
+    		} else if(ChartGlobal.RIGHT_BOTTOM.equals(parameter)
+    				|| ChartGlobal.RIGHT_BOTTOM_DEMO.equals(parameter)){
     			if(StringUtils.isEmpty(json)){
     				jsonFile = getPieChartLayPath();
         			try {

@@ -25,6 +25,8 @@ public class ChartJsonUtils {
 	public static String COMMA = ",";
 	
 	public static void main(String[] args) {
+		System.out.println("substring = "+"upDemoleft_top_demo".substring("upDemo".length()));
+		
 //		String json = FileUtil.readStrTxt(new File("D://json//BarChart.json"), ChartGlobal.encodeing);
 		String json = FileUtil.readStrTxt(new File("01.json"), ChartGlobal.encodeing);
 //		System.out.println(json+"\n"+"-----------------------------------------------");

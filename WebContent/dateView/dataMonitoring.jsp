@@ -1,6 +1,21 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+String leftTopUrl = basePath+"chartJson?parameter=left_top";
+String rightTopUrl = basePath+"chartJson?parameter=right_top";
+String leftBottomUrl = basePath+"chartJson?parameter=left_bottom";
+String rightBottomUrl = basePath+"chartJson?parameter=right_bottom";
+%>
+<%
+response.setHeader("Cache-Control","no-store");
+response.setHeader("Pragma","no-cache");
+response.setDateHeader ("Expires", 0);
+%>
 <html>
 
 <head>
+<base href="<%=basePath%>">
 <meta charset="UTF-8">
 
 <meta http-equiv="refresh" content="20">
@@ -47,16 +62,16 @@
 <body>
     <div class="main">
         <div class="quarter-div blue">
-			<img src="http://localhost:8081/dateView/chartJson?parameter=left_top">
+			<img src=<%=leftTopUrl%>>
 		</div>
         <div class="quarter-div green divname">
-        	<img src="http://localhost:8081/dateView/chartJson?parameter=right_top">
+        	<img src=<%=rightTopUrl%>>
         </div>
         <div class="quarter-div orange divname">
-        	<img src="http://localhost:8081/dateView/chartJson?parameter=left_bottom">
+        	<img src=<%=leftBottomUrl%>>
         </div>
         <div class="quarter-div yellow divname">
-        	<img src="http://localhost:8081/dateView/chartJson?parameter=right_bottom">
+        	<img src=<%=rightBottomUrl%>>
         </div>
     </div>
 </body>

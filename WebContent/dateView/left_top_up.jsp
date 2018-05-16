@@ -4,7 +4,7 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 String errorKey =(String)(request.getAttribute("errorKey")==null?"":request.getAttribute("errorKey"));
 String demoKey =(String)(request.getAttribute("demoKey")==null?"default_demo":request.getAttribute("demoKey"));
-String imageUrl = "http://localhost:8081/dateView/chartJson?parameter="+demoKey;
+String imageUrl = basePath+"chartJson?parameter="+demoKey;
 %>
 <%
 response.setHeader("Cache-Control","no-store");
@@ -30,7 +30,7 @@ body{ background:#BBFFEE; height:100%;}
 .left{ width:300px; left:5px; top:85px; bottom:85px;}
 .right{ left:320px; right:5px; top:85px; bottom:85px;}
 .bottom{height:70px; left:5px; right:5px; bottom:10px;}
-
+.bottom img{width:60%;height:70%;}
 .item{
         flex:1 1 0;
     }
@@ -137,29 +137,19 @@ body{ background:#BBFFEE; height:100%;}
 	
 	<div class="bottom">
 		<table width="100%">
-			<tr>
-			<td style="background:#ddd;width:25%;">
-				<div style="height:100px;">
-					<ul></ul>
-				</div>
-			</td>
-			<td style="background:#ccc;width:25%;">
-				<div style="height:100px;">
-					<ul></ul>
-				</div>
-			</td>
-			<td style="background:#ddd;width:25%;">
-				<div style="height:100px;">
-					<ul></ul>
-				</div>
-			</td>
-			<td>
-				<div style="background:#ccc;height:100px;">
-					<ul></ul>
-				</div>
-			</td>
-		   </tr>
-		  </table>
+		<tr>
+		<td style="width:50%;">
+			<div style="height:100px;">
+				<img src="image/upbottom02.png">
+			</div>
+		</td>
+		<td>
+			<div style="height:100px;">
+				<img src="image/upbottom01.png">
+			</div>
+		</td>
+	   </tr>
+	  </table>
 	</div>
   </body>
 </html>

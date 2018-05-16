@@ -35,7 +35,7 @@ public class UploadServerlt extends HttpServlet {
 				String dispatcher = "/left_top_up.jsp";
 				//如果表单内容不为空
 				if (fileItemList != null) {
-					String errorKey = "errorKey",errorMess = "";
+					String errorKey = "errorKey",errorMess = "",filename = "";
 					String demoKey = "demoKey";
 					//遍历内容
 					for (FileItem fileItem: fileItemList) {
@@ -48,23 +48,28 @@ public class UploadServerlt extends HttpServlet {
 								break;
 							}
 							//The file must be start with 'left_top_','right_top_','left_bottom_','right_bottom_'.
-							if(fileItem.getName().startsWith("left_top_")){
-								errorMess = "left_top_demo";
-							} else if(fileItem.getName().startsWith("right_top_")){
-								errorMess = "right_top_demo";
-							} else if(fileItem.getName().startsWith("left_bottom_")){
-								errorMess = "left_bottom_demo";
-							} else if(fileItem.getName().startsWith("right_bottom_")){
-								errorMess = "right_bottom_demo";
+							if(fileItem.getName().startsWith(ChartGlobal.LEFT_TOP)){
+								errorMess = ChartGlobal.UP_DEMO+ChartGlobal.LEFT_TOP_DEMO;
+								filename = ChartGlobal.LEFT_TOP_DEMO+ChartGlobal.jsonEnd;
+							} else if(fileItem.getName().startsWith(ChartGlobal.RIGHT_TOP)){
+								errorMess = ChartGlobal.UP_DEMO+ChartGlobal.RIGHT_TOP_DEMO;
+								filename = ChartGlobal.RIGHT_TOP_DEMO+ChartGlobal.jsonEnd;
+							} else if(fileItem.getName().startsWith(ChartGlobal.LEFT_BOTTOM)){
+								errorMess = ChartGlobal.UP_DEMO+ChartGlobal.LEFT_BOTTOM_DEMO;
+								filename = ChartGlobal.LEFT_BOTTOM_DEMO+ChartGlobal.jsonEnd;
+							} else if(fileItem.getName().startsWith(ChartGlobal.RIGHT_BOTTOM)){
+								errorMess = ChartGlobal.UP_DEMO+ChartGlobal.RIGHT_BOTTOM_DEMO;
+								filename = ChartGlobal.RIGHT_BOTTOM_DEMO+ChartGlobal.jsonEnd;
 							} else {
-								errorMess = "must be start with left_top_/right_top_/left_bottom_/right_bottom_";
+								errorMess = "must start with "+ChartGlobal.LEFT_TOP+"/"+ChartGlobal.RIGHT_TOP
+										+"/"+ChartGlobal.LEFT_BOTTOM+"/"+ChartGlobal.RIGHT_BOTTOM;
 								request.setAttribute(errorKey,errorMess);
 								break;
 							}
 							request.setAttribute(demoKey, errorMess);
 							InputStream in = fileItem.getInputStream();
 							//写入指定目录下
-							FileOutputStream fos = new FileOutputStream("left_top_demo.json");
+							FileOutputStream fos = new FileOutputStream(filename);
 							byte[] buffer = new byte[1024];
 							int length;
 							while ((length = in.read(buffer)) != -1) {
