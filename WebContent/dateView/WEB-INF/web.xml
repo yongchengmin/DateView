@@ -20,7 +20,7 @@
         <param-value>
             classpath:dataSourceContext.xml
             classpath*:serviceContext.xml
-           <!--  classpath:adapterContext.xml -->
+            classpath:adapterContext.xml
         </param-value>
  	</context-param>
   	<context-param>
@@ -63,17 +63,24 @@
     <servlet-name>ChartImageServlet</servlet-name>
     <servlet-class>com.yc.view.servlet.ChartImageServlet</servlet-class>
   </servlet>
-  
+  <servlet>
+    <servlet-name>invokeMethodServlet</servlet-name>
+    <servlet-class>com.yc.view.servlet.InvokeMethodServlet</servlet-class>
+  </servlet>
     <!-- 上传文件 -->
   <servlet>
 	  <servlet-name>Upload</servlet-name>
 	  <servlet-class>com.yc.view.servlet.UploadServerlt</servlet-class>
   </servlet>
+  
   <servlet-mapping>
 	  <servlet-name>Upload</servlet-name>
 	  <url-pattern>/upload</url-pattern>
   </servlet-mapping>
-  
+  <servlet-mapping>
+	  <servlet-name>invokeMethodServlet</servlet-name>
+	  <url-pattern>/invoke</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>ChartImageServlet</servlet-name>
     <url-pattern>/chartJson</url-pattern>

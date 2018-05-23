@@ -137,8 +137,9 @@ body{ background:#BBFFEE; height:100%;}
 	
 	<div class="bottom">
 		<table width="100%">
-		<tr>
-		<td style="width:50%;">
+		<thead>
+			<tr>
+				<td style="width:50%;">
 			<div style="height:100px;">
 				<img src="image/upbottom02.png">
 			</div>
@@ -148,7 +149,8 @@ body{ background:#BBFFEE; height:100%;}
 				<img src="image/upbottom01.png">
 			</div>
 		</td>
-	   </tr>
+			</tr>
+		</thead>
 	  </table>
 	</div>
   </body>

@@ -1,5 +1,8 @@
 package com.yc.view.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +14,7 @@ import com.yc.utils.files.PropertiesUtil;
 import com.yc.view.exception.BusinessException;
 import com.yc.view.sql.SqlContainerKey;
 import com.yc.view.sql.SqlLoad;
+import com.yc.view.utils.ChartJsonUtils;
 import com.yc.view.utils.ProjectUtils;
 
 public class ChartjsonInitImp implements ChartjsonInit{
@@ -20,35 +24,74 @@ public class ChartjsonInitImp implements ChartjsonInit{
 		this.chartJdbcInit = chartJdbcInit;
 	}
 	
-	static String keyName,sqlPath;
+	static String kround,sqlPath;
 	static{
-		keyName = PropertiesUtil.getPropertiesKey(SqlLoad.sqlContainerPath, SqlContainerKey.K1);
-		sqlPath = PropertiesUtil.getPropertiesKey(SqlLoad.sqlLoadPath, keyName);
+		kround = PropertiesUtil.getPropertiesKey(SqlLoad.sqlContainerPath, SqlContainerKey.KROUND);
+//		sqlPath = PropertiesUtil.getPropertiesKey(SqlLoad.sqlLoadPath, kround);
 	}
 	public String leftTop() {
-//		String sqlPath = ProjectUtils.getPropertiesKey(ChartGlobal.LEFT_TOP);
-//		if(sqlPath == null){
-//			throw new BusinessException(PropertiesUtil.PROPERTIES_ACCESS_TOKEN+"未配置"+ChartGlobal.LEFT_TOP+"路径");
-//		}
-		if(keyName == null){
-			keyName = PropertiesUtil.getPropertiesKey(SqlLoad.sqlContainerPath, SqlContainerKey.K1);
+		if(kround == null){
+			kround = PropertiesUtil.getPropertiesKey(SqlLoad.sqlContainerPath, SqlContainerKey.KROUND);
 		}
-		if(sqlPath == null){
-			sqlPath = PropertiesUtil.getPropertiesKey(SqlLoad.sqlLoadPath, keyName);
+//		System.out.println("kround === "+ kround);
+		//轮播逻辑  begin
+		String keyName = "";
+		String kno = PropertiesUtil.getPropertiesKey(SqlLoad.sqlKeyPath, SqlContainerKey.KNO);
+		String[] keys = kround.split(ChartJsonUtils.COMMA);
+		if(kno == null){
+			keyName = keys[0];
+			kno = keys[0];
+		} else {
+			String[] knos = kno.split(ChartJsonUtils.COMMA);
+			if(keys.length == knos.length){
+				keyName = keys[0];
+				kno = keys[0];
+			} else {
+				for(String n : knos){
+					for(String k : keys){
+						if(!k.equals(n)){
+							keyName = k;
+							kno += ","+k;
+							break;
+						}
+					}
+				}
+			}
 		}
+		
+//		System.out.println(SqlLoad.sqlKeyPath);
+//		System.out.println("kno ====== " + kno);
+		try {
+			File f= new File(SqlLoad.sqlKeyPath);
+			PropertiesUtil.saveKey(f, SqlContainerKey.KNO,kno,new FileInputStream(f));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		//轮播逻辑  end
+		sqlPath = PropertiesUtil.getPropertiesKey(SqlLoad.sqlLoadPath, keyName);
 		String sql = null;
 		try {
 			sql = ProjectUtils.getString(ProjectUtils.getByte(sqlPath));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+//		System.out.println("keyName ====== " + keyName);
+//		System.out.println("sqlPath ====== " + sqlPath);
 		try {
 			chartJdbcInit.dataNo0Execute(sql);
 		} catch (Exception e) {
 			throw new BusinessException(e.getMessage());
 		}
 		
+		//select to json
+		String json = sqlToJson();
+		return json;
+//		String sqlPath = ProjectUtils.getPropertiesKey(ChartGlobal.LEFT_TOP);
+//		if(sqlPath == null){
+//			throw new BusinessException(PropertiesUtil.PROPERTIES_ACCESS_TOKEN+"未配置"+ChartGlobal.LEFT_TOP+"路径");
+//		}
+	}
+	public String sqlToJson(){
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		
     	List list = chartJdbcInit.dataNo0QueryForList("SELECT TITLE,CATEGORYAXISLABEL,VALUEAXISLABEL FROM LEFT_TOP_HEAD");
@@ -66,21 +109,27 @@ public class ChartjsonInitImp implements ChartjsonInit{
     	
     	List<String> categoriesS = new ArrayList<String>();
     	List<String> xS = new ArrayList<String>();
-    	Map<String,List<Double>> yM = new HashMap<String,List<Double>>();
+    	Map<String,List<Double>> yM = new HashMap<String,List<Double>>();//骏铃南线:[95,24,22]
     	list = chartJdbcInit.dataNo0QueryForList("SELECT CATEGORIES,X,QUANTITY FROM LEFT_TOP_Y ORDER BY LINE ASC");
     	iMes = list.iterator();
+    	
+    	List<Double> l = null;
     	while(iMes.hasNext()){
     		Map m = (Map) iMes.next();
-    		String categories = m.get("CATEGORIES")==null?"-": m.get("CATEGORIES").toString().trim();
+    		String categorie = m.get("CATEGORIES")==null?"-": m.get("CATEGORIES").toString().trim();
     		String x = m.get("X")==null?"-": m.get("X").toString().trim();
     		Double quantity = m.get("QUANTITY")==null?0D: Double.valueOf(m.get("QUANTITY").toString());
     		
-    		List<Double> l = new ArrayList<Double>();
+			if(yM.containsKey(categorie)){
+				l = yM.get(categorie);
+			}else {
+				l = new ArrayList<Double>();
+			}
 			l.add(quantity);
-			yM.put(categories, l);
+			yM.put(categorie, l);
     		
-			if(!categoriesS.contains(categories)){
-				categoriesS.add(categories);
+			if(!categoriesS.contains(categorie)){
+				categoriesS.add(categorie);
 			}
     		if(!xS.contains(x)){
     			xS.add(x);

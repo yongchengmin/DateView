@@ -2,6 +2,7 @@ package com.yc.view.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -171,7 +172,44 @@ public class ProjectUtils {
 		  Pattern pattern = Pattern.compile("[0-9]*");
 		  return pattern.matcher(str).matches();
 	}
-	
+    public static void saveKey(File f,String key,String value,InputStream ips){
+    	Properties properties= new Properties();
+    	try {
+			properties.load(ips);
+			ips.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+    	properties.setProperty(key, value);
+    	try {
+    		FileOutputStream fos = new FileOutputStream(f,false);
+    		properties.store(fos,"");
+    		fos.close();
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+    }
+	public static String getPropertiesKey(String pathname,String keyName){
+		String value = "";
+		File file = new File(pathname);
+		try {
+		 	FileInputStream in = null;
+		 	Properties pp = new Properties();
+	        try{
+	            in = new FileInputStream(file);
+	            pp.load(in);
+	            value = pp.getProperty(keyName);
+	        } catch (FileNotFoundException e){
+	            e.printStackTrace();
+	        }finally{
+	        	pp = null;
+	        	in = null;
+	        }
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return value;
+	}
 	public static void main(String[] args) {
 		System.out.println(isNumeric1(""));
 		System.out.println(isNumeric1("2"));
