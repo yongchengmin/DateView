@@ -110,7 +110,7 @@ public class ChartjsonInitImp implements ChartjsonInit{
     	List<String> categoriesS = new ArrayList<String>();
     	List<String> xS = new ArrayList<String>();
     	Map<String,List<Double>> yM = new HashMap<String,List<Double>>();//骏铃南线:[95,24,22]
-    	list = chartJdbcInit.dataNo0QueryForList("SELECT CATEGORIES,X,QUANTITY FROM LEFT_TOP_Y ORDER BY LINE ASC");
+    	list = chartJdbcInit.dataNo0QueryForList("SELECT CATEGORIES,X,QUANTITY FROM LEFT_TOP_Y ORDER BY LINE,X ASC");
     	iMes = list.iterator();
     	
     	List<Double> l = null;
