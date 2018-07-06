@@ -72,4 +72,38 @@ public class EdiJobHelper extends AbstractEdiJobHelper{
 		}
 		logger.info("EdiJobHelper[doLeftTopJob] over....................");
 	}
+	
+	public void doRightTopJob(){
+		logger.info("EdiJobHelper[doRightTopJob] started....................");
+		chartjsonInit = (ChartjsonInit) applicationContext.getBean(ChartjsonInit.BEAN);
+		URL url = this.getClass().getResource(repeatIntervalFile);
+		int time = 0,globalTime = 20;
+		String tt = PropertiesUtil.getPropertiesKey(url.getPath(), "doRightTopJob");
+		if(StringUtils.isEmpty(tt)){
+			time = globalTime;
+		}else{
+			if(ProjectUtils.isNumeric1(tt)){
+				time = Integer.valueOf(tt);
+			}else{
+				time = globalTime;
+			}
+		}
+//		String jsonFile = "leftTop_"+DateUtil.format(new Date(), DateUtil.yyMMddHHmmssSSS)+".json";
+		int num = 1000*time;
+		Boolean beTrue = num >= 1000;
+		while (beTrue) {
+			chartjsonInit.rightTop();
+			try {
+				System.out.println("doRightTopJob..."+DateUtil.format(new Date(), DateUtil.dmy_hms)+" -- "+time+"s");
+				Thread.sleep(num);
+			} catch (InterruptedException e) {
+				logger.error("", e);
+			}
+			if (!isApplicationAvailable) {
+				logger.error("EdiJobHelper[doRightTopJob] end....................");
+				break;
+			}
+		}
+		logger.info("EdiJobHelper[doRightTopJob] over....................");
+	}
 }

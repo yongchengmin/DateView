@@ -14,6 +14,7 @@ import com.yc.utils.files.PropertiesUtil;
 import com.yc.view.exception.BusinessException;
 import com.yc.view.sql.SqlContainerKey;
 import com.yc.view.sql.SqlLoad;
+import com.yc.view.utils.ChartGlobal;
 import com.yc.view.utils.ChartJsonUtils;
 import com.yc.view.utils.ProjectUtils;
 
@@ -24,11 +25,71 @@ public class ChartjsonInitImp implements ChartjsonInit{
 		this.chartJdbcInit = chartJdbcInit;
 	}
 	
-	static String kround,sqlPath;
+	static String kround,kroundSqlPath;
+	static String yround,yroundSqlPath;
 	static{
 		kround = PropertiesUtil.getPropertiesKey(SqlLoad.sqlContainerPath, SqlContainerKey.KROUND);
 //		sqlPath = PropertiesUtil.getPropertiesKey(SqlLoad.sqlLoadPath, kround);
+		yround = PropertiesUtil.getPropertiesKey(SqlLoad.sqlContainerPath, SqlContainerKey.YROUND);
 	}
+	//http://localhost:8081/dateView/invoke?subscriber=chartjsonInit.rightTop
+	public String rightTop() {
+		if(yround == null){
+			yround = PropertiesUtil.getPropertiesKey(SqlLoad.sqlContainerPath, SqlContainerKey.YROUND);
+		}
+		//轮播逻辑  begin
+		String keyName = "";
+		String kno = PropertiesUtil.getPropertiesKey(SqlLoad.sqlKeyPath, SqlContainerKey.YNO);
+		String[] keys = yround.split(ChartJsonUtils.COMMA);
+		if(kno == null){
+			keyName = keys[0];
+			kno = keys[0];
+		} else {
+			String[] knos = kno.split(ChartJsonUtils.COMMA);
+			if(keys.length == knos.length){
+				keyName = keys[0];
+				kno = keys[0];
+			} else {
+				for(String n : knos){
+					for(String k : keys){
+						if(!k.equals(n)){
+							keyName = k;
+							kno += ","+k;
+							break;
+						}
+					}
+				}
+			}
+		}
+		try {
+			File f= new File(SqlLoad.sqlKeyPath);
+			PropertiesUtil.saveKey(f, SqlContainerKey.YNO,kno,new FileInputStream(f));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		//轮播逻辑  end
+		yroundSqlPath = PropertiesUtil.getPropertiesKey(SqlLoad.sqlLoadPath, keyName);
+		String sql = null;
+		try {
+			sql = ProjectUtils.getString(ProjectUtils.getByte(yroundSqlPath));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+//		System.out.println(sql);
+		try {
+			chartJdbcInit.dataNo0Execute(sql);
+		} catch (Exception e) {
+			throw new BusinessException(e.getMessage());
+		}
+		//select to json
+		String json = sqlRightTopToJson();
+//		System.out.println(json);
+		String jsonFile = ChartGlobal.RIGHT_TOP+ChartGlobal.jsonEnd;
+		ProjectUtils.createTxt(jsonFile,json.trim(), ChartGlobal.encodeing);
+		return json;
+		
+	}
+	//http://localhost:8081/dateView/invoke?subscriber=chartjsonInit.leftTop
 	public String leftTop() {
 		if(kround == null){
 			kround = PropertiesUtil.getPropertiesKey(SqlLoad.sqlContainerPath, SqlContainerKey.KROUND);
@@ -68,10 +129,10 @@ public class ChartjsonInitImp implements ChartjsonInit{
 			e.printStackTrace();
 		}
 		//轮播逻辑  end
-		sqlPath = PropertiesUtil.getPropertiesKey(SqlLoad.sqlLoadPath, keyName);
+		kroundSqlPath = PropertiesUtil.getPropertiesKey(SqlLoad.sqlLoadPath, keyName);
 		String sql = null;
 		try {
-			sql = ProjectUtils.getString(ProjectUtils.getByte(sqlPath));
+			sql = ProjectUtils.getString(ProjectUtils.getByte(kroundSqlPath));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -91,10 +152,11 @@ public class ChartjsonInitImp implements ChartjsonInit{
 //			throw new BusinessException(PropertiesUtil.PROPERTIES_ACCESS_TOKEN+"未配置"+ChartGlobal.LEFT_TOP+"路径");
 //		}
 	}
+	//http://localhost:8081/dateView/invoke?subscriber=chartjsonInit.sqlToJson
 	public String sqlToJson(){
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		
-    	List list = chartJdbcInit.dataNo0QueryForList("SELECT TITLE,CATEGORYAXISLABEL,VALUEAXISLABEL FROM LEFT_TOP_HEAD");
+    	List list = chartJdbcInit.dataNo0QueryForList("SELECT TITLE,CATEGORYAXISLABEL,VALUEAXISLABEL FROM LEFT_TOP_HEAD WHERE TYPE = '"+ChartGlobal.LEFT_TOP+"'");
     	Iterator iMes = list.iterator();
     	while(iMes.hasNext()){
     		Map m = (Map) iMes.next();
@@ -110,7 +172,7 @@ public class ChartjsonInitImp implements ChartjsonInit{
     	List<String> categoriesS = new ArrayList<String>();
     	List<String> xS = new ArrayList<String>();
     	Map<String,List<Double>> yM = new HashMap<String,List<Double>>();//骏铃南线:[95,24,22]
-    	list = chartJdbcInit.dataNo0QueryForList("SELECT CATEGORIES,X,QUANTITY FROM LEFT_TOP_Y ORDER BY LINE,X ASC");
+    	list = chartJdbcInit.dataNo0QueryForList("SELECT CATEGORIES,X,QUANTITY FROM LEFT_TOP_Y WHERE TYPE = '"+ChartGlobal.LEFT_TOP+"' ORDER BY LINE,X ASC");
     	iMes = list.iterator();
     	
     	List<Double> l = null;
@@ -172,6 +234,59 @@ public class ChartjsonInitImp implements ChartjsonInit{
 		return json;
 	}
 
+	//http://localhost:8081/dateView/invoke?subscriber=chartjsonInit.sqlRightTopToJson
+	public String sqlRightTopToJson(){
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		
+    	List list = chartJdbcInit.dataNo0QueryForList("SELECT TITLE,CATEGORYAXISLABEL,VALUEAXISLABEL FROM RIGHT_TOP_HEAD WHERE TYPE = '"+ChartGlobal.RIGHT_TOP+"'");
+    	Iterator iMes = list.iterator();
+    	while(iMes.hasNext()){
+    		Map m = (Map) iMes.next();
+    		String title = m.get("TITLE")==null?"-": m.get("TITLE").toString().trim();
+    		String categoryaxislabel = m.get("CATEGORYAXISLABEL")==null?"-": m.get("CATEGORYAXISLABEL").toString().trim();
+    		String valueaxislabel = m.get("VALUEAXISLABEL")==null?"-": m.get("VALUEAXISLABEL").toString().trim();
+    		paramMap.put("TITLE", title);
+    		paramMap.put("CATEGORYAXISLABEL", categoryaxislabel);
+    		paramMap.put("VALUEAXISLABEL", valueaxislabel);
+    		break;
+    	}list.clear();
+    	
+    	List<String> categoriesS = new ArrayList<String>();
+    	List<String> xS = new ArrayList<String>();
+    	Map<String,List<Double>> yM = new HashMap<String,List<Double>>();//骏铃南线:[95,24,22]
+    	list = chartJdbcInit.dataNo0QueryForList("SELECT CATEGORIES,X,QUANTITY FROM RIGHT_TOP_Y WHERE TYPE = '"+ChartGlobal.RIGHT_TOP+"' ORDER BY LINE,X ASC");
+    	iMes = list.iterator();
+    	
+    	List<Double> l = null;
+    	while(iMes.hasNext()){
+    		Map m = (Map) iMes.next();
+    		String categorie = m.get("CATEGORIES")==null?"-": m.get("CATEGORIES").toString().trim();
+    		String x = m.get("X")==null?"-": m.get("X").toString().trim();
+    		Double quantity = m.get("QUANTITY")==null?0D: Double.valueOf(m.get("QUANTITY").toString());
+    		
+			if(yM.containsKey(categorie)){
+				l = yM.get(categorie);
+			}else {
+				l = new ArrayList<Double>();
+			}
+			l.add(quantity);
+			yM.put(categorie, l);
+    		
+			if(!categoriesS.contains(categorie)){
+				categoriesS.add(categorie);
+			}
+    		if(!xS.contains(x)){
+    			xS.add(x);
+    		}
+    	}list.clear();
+    	paramMap.put("CATEGORIES", categoriesS);
+    	paramMap.put("X", xS);
+    	paramMap.put("Y", yM);
+    	String json = JsonTools.getCreateJson(paramMap);
+    	paramMap.clear();
+//	    	System.out.println(json);
+		return json;
+	}
 	public static void main(String[] args) {
 		String infoBodyStr = null;
 //		infoBodyStr =JsonTools.getCreateJson("t_item", getListMap());

@@ -6,4 +6,7 @@ public interface ChartjsonInit {
 	String leftTop();
 	
 	String sqlToJson();
+	
+	String rightTop();
+	String sqlRightTopToJson();
 }
