@@ -20,7 +20,7 @@
         <param-value>
             classpath:dataSourceContext.xml
             classpath*:serviceContext.xml
-            classpath:adapterContext.xml
+<!--             classpath:adapterContext.xml -->
         </param-value>
  	</context-param>
   	<context-param>

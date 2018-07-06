@@ -125,6 +125,49 @@ body{ background:#BBFFEE; height:100%;}
 				<a href="books/right_bottom.json" target="_blank">right_bottom_模板 / </a>
 				<a href="books/right_bottom.jpeg" target="_blank">预览</a>
 			</li></ul></td></tr>
+			<tr><td><ul><li>
+				&#10052;&#10052;&#10052;案  例  展  示&#10052;&#10052;&#10052;
+			</li></ul></td></tr>
+			<tr><td><ul><li>
+				<a href="books/left_bottom_001.json" target="_blank">承运商运量占比 / </a>
+				<a href="books/left_bottom_001.jpg" target="_blank">预览</a>
+			</li></ul></td></tr>
+			<tr><td><ul><li>
+				<a href="books/left_top_002.json" target="_blank">OA流程发生统计 / </a>
+				<a href="books/left_top_002.jpg" target="_blank">预览</a>
+			</li></ul></td></tr>
+			<tr><td><ul><li>
+				<a href="books/left_top_003.json" target="_blank">复联3人物复活投票 / </a>
+				<a href="books/left_top_003.png" target="_blank">预览</a>
+			</li></ul></td></tr>
+			<tr><td><ul><li>
+				<a href="books/left_top_004.json" target="_blank">公司GPS使用情况一览表 / </a>
+				<a href="books/left_top_004.png" target="_blank">预览</a>
+			</li></ul></td></tr>
+			<tr><td><ul><li>
+				<a href="books/left_top_005.json" target="_blank">日生产量及节拍 / </a>
+				<a href="books/left_top_005.png" target="_blank">预览</a>
+			</li></ul></td></tr>
+			<tr><td><ul><li>
+				<a href="books/left_top_006.json" target="_blank">三日产线备料进度 / </a>
+				<a href="books/left_top_006.png" target="_blank">预览</a>
+			</li></ul></td></tr>
+			<tr><td><ul><li>
+				<a href="books/left_top_007.json" target="_blank">收车情况分析 / </a>
+				<a href="books/left_top_007.jpg" target="_blank">预览</a>
+			</li></ul></td></tr>
+			<tr><td><ul><li>
+				<a href="books/right_top_008.json" target="_blank">一周降雨量 / </a>
+				<a href="books/right_top_008.jpg" target="_blank">预览</a>
+			</li></ul></td></tr>
+			<tr><td><ul><li>
+				<a href="books/right_top_009.json" target="_blank">月发运量监控 / </a>
+				<a href="books/right_top_009.jpg" target="_blank">预览</a>
+			</li></ul></td></tr>
+			<tr><td><ul><li>
+				<a href="books/right_top_010.json" target="_blank">在途超期率 / </a>
+				<a href="books/right_top_010.jpg" target="_blank">预览</a>
+			</li></ul></td></tr>
 		</tbody>
 		  </table>
 	</div>
