@@ -27,10 +27,12 @@ public class ChartjsonInitImp implements ChartjsonInit{
 	
 	static String kround,kroundSqlPath;
 	static String yround,yroundSqlPath;
+	static String pround,proundSqlPath;
 	static{
 		kround = PropertiesUtil.getPropertiesKey(SqlLoad.sqlContainerPath, SqlContainerKey.KROUND);
 //		sqlPath = PropertiesUtil.getPropertiesKey(SqlLoad.sqlLoadPath, kround);
 		yround = PropertiesUtil.getPropertiesKey(SqlLoad.sqlContainerPath, SqlContainerKey.YROUND);
+		pround = PropertiesUtil.getPropertiesKey(SqlLoad.sqlContainerPath, SqlContainerKey.PROUND);
 	}
 	//http://localhost:8081/dateView/invoke?subscriber=chartjsonInit.rightTop
 	public String rightTop() {
@@ -88,6 +90,61 @@ public class ChartjsonInitImp implements ChartjsonInit{
 		ProjectUtils.createTxt(jsonFile,json.trim(), ChartGlobal.encodeing);
 		return json;
 		
+	}
+	//http://localhost:8081/dateView/invoke?subscriber=chartjsonInit.rightBottom
+	public String rightBottom() {
+		if(pround == null){
+			pround = PropertiesUtil.getPropertiesKey(SqlLoad.sqlContainerPath, SqlContainerKey.PROUND);
+		}
+		//轮播逻辑  begin
+		String keyName = "";
+		String kno = PropertiesUtil.getPropertiesKey(SqlLoad.sqlKeyPath, SqlContainerKey.PNO);
+		String[] keys = pround.split(ChartJsonUtils.COMMA);
+		if(kno == null){
+			keyName = keys[0];
+			kno = keys[0];
+		} else {
+			String[] knos = kno.split(ChartJsonUtils.COMMA);
+			if(keys.length == knos.length){
+				keyName = keys[0];
+				kno = keys[0];
+			} else {
+				for(String n : knos){
+					for(String k : keys){
+						if(!k.equals(n)){
+							keyName = k;
+							kno += ","+k;
+							break;
+						}
+					}
+				}
+			}
+		}
+		try {
+			File f= new File(SqlLoad.sqlKeyPath);
+			PropertiesUtil.saveKey(f, SqlContainerKey.PNO,kno,new FileInputStream(f));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		//轮播逻辑  end
+		proundSqlPath = PropertiesUtil.getPropertiesKey(SqlLoad.sqlLoadPath, keyName);
+		String sql = null;
+		try {
+			sql = ProjectUtils.getString(ProjectUtils.getByte(proundSqlPath));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+//		System.out.println(sql);
+		try {
+			chartJdbcInit.dataNo0Execute(sql);
+		} catch (Exception e) {
+			throw new BusinessException(e.getMessage());
+		}
+		String json = sqlRightBottomToJson();
+//		System.out.println(json);
+		String jsonFile = ChartGlobal.RIGHT_BOTTOM+ChartGlobal.jsonEnd;
+		ProjectUtils.createTxt(jsonFile,json.trim(), ChartGlobal.encodeing);
+		return json;
 	}
 	//http://localhost:8081/dateView/invoke?subscriber=chartjsonInit.leftTop
 	public String leftTop() {
@@ -234,6 +291,42 @@ public class ChartjsonInitImp implements ChartjsonInit{
 		return json;
 	}
 
+	//http://localhost:8081/dateView/invoke?subscriber=chartjsonInit.sqlRightTopToJson
+	public String sqlRightBottomToJson(){
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		
+    	List list = chartJdbcInit.dataNo0QueryForList("SELECT TITLE FROM RIGHT_BOTTOM_HEAD");
+    	Iterator iMes = list.iterator();
+    	while(iMes.hasNext()){
+    		Map m = (Map) iMes.next();
+    		String title = m.get("TITLE")==null?"-": m.get("TITLE").toString().trim();
+    		paramMap.put("TITLE", title);
+    		break;
+    	}list.clear();
+    	
+    	List<String> categoriesS = new ArrayList<String>();
+    	Map<String,Double> yM = new HashMap<String,Double>();//"data1":8
+    	list = chartJdbcInit.dataNo0QueryForList("SELECT CATEGORIES,QUANTITY FROM RIGHT_BOTTOM_Y ORDER BY LINE ASC");
+    	iMes = list.iterator();
+    	
+    	while(iMes.hasNext()){
+    		Map m = (Map) iMes.next();
+    		String categorie = m.get("CATEGORIES")==null?"-": m.get("CATEGORIES").toString().trim();
+    		Double quantity = m.get("QUANTITY")==null?0D: Double.valueOf(m.get("QUANTITY").toString());
+    		
+			yM.put(categorie, quantity);
+			if(!categoriesS.contains(categorie)){
+				categoriesS.add(categorie);
+			}
+    	}list.clear();
+    	paramMap.put("CATEGORIES", categoriesS);
+    	paramMap.put("Y", yM);
+    	String json = JsonTools.getCreateJson(paramMap);
+    	paramMap.clear();
+//	    	System.out.println(json);
+		return json;
+		
+	}
 	//http://localhost:8081/dateView/invoke?subscriber=chartjsonInit.sqlRightTopToJson
 	public String sqlRightTopToJson(){
 		Map<String, Object> paramMap = new HashMap<String, Object>();

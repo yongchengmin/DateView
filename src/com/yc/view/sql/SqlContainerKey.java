@@ -8,4 +8,7 @@ public interface SqlContainerKey {
 	public static String YROUND = "yround";
 	public static String YNO = "yno";
 	
+	public static String PROUND = "pround";
+	public static String PNO = "pno";
+	
 }

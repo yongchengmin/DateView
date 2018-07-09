@@ -104,9 +104,9 @@ public class PieChartLay {
 		final String json = FileUtil.readStrTxt(file, ChartGlobal.encodeing);
 		System.out.println(json);
 		
-//		chartFrame(json);
+		chartFrame(json);
 
-		outPng(json);
+//		outPng(json);
 	}
 
 	static JFreeChart chart;
