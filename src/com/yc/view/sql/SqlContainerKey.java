@@ -11,4 +11,7 @@ public interface SqlContainerKey {
 	public static String PROUND = "pround";
 	public static String PNO = "pno";
 	
+	public static String XROUND = "xround";
+	public static String XNO = "xno";
+	
 }

@@ -28,11 +28,13 @@ public class ChartjsonInitImp implements ChartjsonInit{
 	static String kround,kroundSqlPath;
 	static String yround,yroundSqlPath;
 	static String pround,proundSqlPath;
+	static String xround,xroundSqlPath;
 	static{
 		kround = PropertiesUtil.getPropertiesKey(SqlLoad.sqlContainerPath, SqlContainerKey.KROUND);
 //		sqlPath = PropertiesUtil.getPropertiesKey(SqlLoad.sqlLoadPath, kround);
 		yround = PropertiesUtil.getPropertiesKey(SqlLoad.sqlContainerPath, SqlContainerKey.YROUND);
 		pround = PropertiesUtil.getPropertiesKey(SqlLoad.sqlContainerPath, SqlContainerKey.PROUND);
+		xround = PropertiesUtil.getPropertiesKey(SqlLoad.sqlContainerPath, SqlContainerKey.XROUND);
 	}
 	//http://localhost:8081/dateView/invoke?subscriber=chartjsonInit.rightTop
 	public String rightTop() {
@@ -209,6 +211,62 @@ public class ChartjsonInitImp implements ChartjsonInit{
 //			throw new BusinessException(PropertiesUtil.PROPERTIES_ACCESS_TOKEN+"未配置"+ChartGlobal.LEFT_TOP+"路径");
 //		}
 	}
+	//http://localhost:8081/dateView/invoke?subscriber=chartjsonInit.leftBottom
+	public String leftBottom() {
+		if(xround == null){
+			xround = PropertiesUtil.getPropertiesKey(SqlLoad.sqlContainerPath, SqlContainerKey.XROUND);
+		}
+		//轮播逻辑  begin
+		String keyName = "";
+		String kno = PropertiesUtil.getPropertiesKey(SqlLoad.sqlKeyPath, SqlContainerKey.XNO);
+		String[] keys = xround.split(ChartJsonUtils.COMMA);
+		if(kno == null){
+			keyName = keys[0];
+			kno = keys[0];
+		} else {
+			String[] knos = kno.split(ChartJsonUtils.COMMA);
+			if(keys.length == knos.length){
+				keyName = keys[0];
+				kno = keys[0];
+			} else {
+				for(String n : knos){
+					for(String k : keys){
+						if(!k.equals(n)){
+							keyName = k;
+							kno += ","+k;
+							break;
+						}
+					}
+				}
+			}
+		}
+		try {
+			File f= new File(SqlLoad.sqlKeyPath);
+			PropertiesUtil.saveKey(f, SqlContainerKey.XNO,kno,new FileInputStream(f));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		//轮播逻辑  end
+		xroundSqlPath = PropertiesUtil.getPropertiesKey(SqlLoad.sqlLoadPath, keyName);
+		String sql = null;
+		try {
+			sql = ProjectUtils.getString(ProjectUtils.getByte(xroundSqlPath));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			chartJdbcInit.dataNo0Execute(sql);
+		} catch (Exception e) {
+			throw new BusinessException(e.getMessage());
+		}
+		//select to json
+		String json = sqlLeftBottomToJson();
+//				System.out.println(json);
+		String jsonFile = ChartGlobal.LEFT_BOTTOM+ChartGlobal.jsonEnd;
+		ProjectUtils.createTxt(jsonFile,json.trim(), ChartGlobal.encodeing);
+		return json;
+		
+	}
 	//http://localhost:8081/dateView/invoke?subscriber=chartjsonInit.sqlToJson
 	public String sqlToJson(){
 		Map<String, Object> paramMap = new HashMap<String, Object>();
@@ -379,6 +437,58 @@ public class ChartjsonInitImp implements ChartjsonInit{
     	paramMap.clear();
 //	    	System.out.println(json);
 		return json;
+	}
+	
+	public String sqlLeftBottomToJson(){
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		
+    	List list = chartJdbcInit.dataNo0QueryForList("SELECT TITLE,CATEGORYAXISLABEL,VALUEAXISLABEL,NUMBERAXIS,PILLAR,LINE FROM LEFT_BOTTOM_HEAD");
+    	Iterator iMes = list.iterator();
+    	
+    	String pillar = "";String line = "";
+    	Map<String,String> categories = new HashMap<String,String>();
+    	while(iMes.hasNext()){
+    		Map m = (Map) iMes.next();
+    		String title = m.get("TITLE")==null?"-": m.get("TITLE").toString().trim();
+    		String categoryaxislabel = m.get("CATEGORYAXISLABEL")==null?"-": m.get("CATEGORYAXISLABEL").toString().trim();
+    		String valueaxislabel = m.get("VALUEAXISLABEL")==null?"-": m.get("VALUEAXISLABEL").toString().trim();
+    		String numberaxis = m.get("NUMBERAXIS")==null?"-": m.get("NUMBERAXIS").toString().trim();
+    		pillar = m.get("PILLAR")==null?"-": m.get("PILLAR").toString().trim();
+    		line = m.get("LINE")==null?"-": m.get("LINE").toString().trim();
+    		paramMap.put("TITLE", title);
+    		paramMap.put("CATEGORYAXISLABEL", categoryaxislabel);
+    		paramMap.put("VALUEAXISLABEL", valueaxislabel);
+    		paramMap.put("NUMBERAXIS", numberaxis);
+    		categories.put("PILLAR",pillar);
+    		categories.put("LINE",line);
+			paramMap.put("CATEGORIES", categories);
+    		break;
+    	}list.clear();
+		
+    	list = chartJdbcInit.dataNo0QueryForList("SELECT X,PILLAR_QUANTITY,LINE_QUANTITY FROM LEFT_BOTTOM_Y ORDER BY LINE ASC");
+    	iMes = list.iterator();
+    	List<String> xS = new ArrayList<String>();
+    	List<Double> pillars = new ArrayList<Double>();
+    	List<Double> lines = new ArrayList<Double>();
+    	Map<String,List<Double>> yM = new HashMap<String,List<Double>>();
+    	while(iMes.hasNext()){
+    		Map m = (Map) iMes.next();
+    		String x = m.get("X")==null?"-": m.get("X").toString().trim();
+    		Double pillarQuantity = m.get("PILLAR_QUANTITY")==null?0D: Double.valueOf(m.get("PILLAR_QUANTITY").toString());
+    		Double lineQuantity = m.get("LINE_QUANTITY")==null?0D: Double.valueOf(m.get("LINE_QUANTITY").toString());
+    		
+    		pillars.add(pillarQuantity);
+    		lines.add(lineQuantity);
+    		xS.add(x);
+    	}
+    	yM.put(pillar, pillars);
+    	yM.put(line, lines);
+    	paramMap.put("X", xS);
+    	paramMap.put("Y", yM);
+    	String json = JsonTools.getCreateJson(paramMap);
+    	paramMap.clear();
+		return json;
+		
 	}
 	public static void main(String[] args) {
 		String infoBodyStr = null;
